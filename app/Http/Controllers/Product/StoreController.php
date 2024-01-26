@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers\Product;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreRequest;
+use App\Models\Product;
+use App\Models\SizeProduct;
+use Illuminate\Support\Facades\Storage;
+
+class StoreController extends Controller
+{
+    public function __invoke(StoreRequest $request)
+    {
+        $data = $request->validated();
+
+        $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
+
+        $sizesId = $data['sizes'];
+        unset($data['sizes']);
+
+        $product = Product::firstOrCreate([
+            'article' => $data['article']
+        ], $data);
+
+        foreach ($sizesId as $sizeId) {
+            SizeProduct::firstOrCreate([
+                'product_id' => $product->id,
+                'size_id' => $sizeId,
+            ]);
+        }
+
+        return redirect()->route('product.index');
+    }
+}
