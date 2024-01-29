@@ -157,4 +157,7 @@ export default {
     span {
         margin: 2px;
     }
+    .wrapper {
+        min-height: 100vh;
+    }
 </style>

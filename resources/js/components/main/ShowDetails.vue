@@ -38,16 +38,10 @@ export default {
                     <div class="images__body">
                         <div class="images__gallery gallery">
                             <div class="gallery__image active _ibg">
-                                <img src="assets/images/photos/puffer_black1.jpg" alt="puffer">
+                                <img :src="product.image_url" :alt="product.title">
                             </div>
-                            <div class="gallery__image _ibg">
-                                <img src="assets/images/photos/puffer_black2.jpg" alt="puffer">
-                            </div>
-                            <div class="gallery__image _ibg">
-                                <img src="assets/images/photos/puffer_black3.jpg" alt="puffer">
-                            </div>
-                            <div class="gallery__image _ibg">
-                                <img src="assets/images/photos/puffer_black4.jpg" alt="puffer">
+                            <div v-for="image in product.product_images" class="gallery__image _ibg">
+                                <img :src="image.url" :alt="product.title">
                             </div>
                         </div>
                         <div class="images__carousel carousel">
@@ -60,16 +54,10 @@ export default {
                             </button>
                             <div class="carousel__main-images main-images">
                                 <div class="main-images__image active _ibg">
-                                    <img src="assets/images/photos/puffer_black1.jpg" alt="puffer">
+                                    <img :src="product.image_url" :alt="product.title">
                                 </div>
-                                <div class="main-images__image _ibg">
-                                    <img src="assets/images/photos/puffer_black2.jpg" alt="puffer">
-                                </div>
-                                <div class="main-images__image _ibg">
-                                    <img src="assets/images/photos/puffer_black3.jpg" alt="puffer">
-                                </div>
-                                <div class="main-images__image _ibg">
-                                    <img src="assets/images/photos/puffer_black4.jpg" alt="puffer">
+                                <div v-for="image in product.product_images" class="main-images__image _ibg">
+                                    <img :src="image.url" :alt="product.title">
                                 </div>
                             </div>
                             <button class="carousel__button _arrow-next" type="button">

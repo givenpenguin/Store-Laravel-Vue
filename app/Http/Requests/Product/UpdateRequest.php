@@ -31,6 +31,7 @@ class UpdateRequest extends FormRequest
             'quantity' => 'required|integer',
             'category_id' => 'required|integer',
             'sizes' => 'required|array',
+            'product_images' => 'nullable|array',
         ];
     }
 }

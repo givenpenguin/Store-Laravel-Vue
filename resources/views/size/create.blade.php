@@ -30,7 +30,9 @@
                     @csrf
 
                     <div class="form-group">
+                        <label for="title">Наименование*</label>
                         <input type="text" name="title" class="form-control" placeholder="Наименование">
+                        @error('title') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Добавить">

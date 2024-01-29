@@ -14,13 +14,18 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function getImageUrlAttribute()
+    {
+        return url('storage/' . $this->preview_image);
+    }
+
     public function sizes()
     {
         return $this->belongsToMany(Size::class, 'size_product', 'product_id', 'size_id');
     }
 
-    public function getImageUrlAttribute()
+    public function productImages()
     {
-        return url('storage/' . $this->preview_image);
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 }

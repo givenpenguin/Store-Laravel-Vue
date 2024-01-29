@@ -23,6 +23,7 @@ class ShowResource extends JsonResource
             'sizes' => SizeResource::collection($this->sizes),
             'description' => $this->description,
             'image_url' => $this->imageUrl,
+            'product_images' => ProductImageResource::collection($this->productImages),
             'price' => $this->price,
             'discount_price' => $this->discount_price,
             'quantity' => $this->quantity,

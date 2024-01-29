@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreRequest;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\SizeProduct;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,8 @@ class StoreController extends Controller
         $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
 
         $sizesId = $data['sizes'];
-        unset($data['sizes']);
+        $productImages = $data['product_images'];
+        unset($data['sizes'], $data['product_images']);
 
         $product = Product::firstOrCreate([
             'article' => $data['article']
@@ -27,6 +29,14 @@ class StoreController extends Controller
             SizeProduct::firstOrCreate([
                 'product_id' => $product->id,
                 'size_id' => $sizeId,
+            ]);
+        }
+
+        foreach ($productImages as $productImage) {
+            $filePath = Storage::disk('public')->put('/images', $productImage);
+            ProductImage::firstOrCreate([
+                'product_id' => $product->id,
+                'file_path' => $filePath,
             ]);
         }
 

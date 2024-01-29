@@ -34,7 +34,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{ route('admin.index') }}" class="brand-link">
-            <span class="brand-text font-weight-light p-3">Kaiseyes</span>
+            <span class="brand-text font-weight-light p-3">évanouir</span>
         </a>
 
         <!-- Sidebar -->
@@ -86,7 +86,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <strong>Copyright &copy; 2021-{{ now()->year }} <a href="{{ route('admin.index') }}">Kaiseyes</a></strong>
+        <strong>Copyright &copy; 2021-{{ now()->year }} <a href="{{ route('admin.index') }}">ÉVANOUIR</a></strong>
         All rights reserved.
     </footer>
 
