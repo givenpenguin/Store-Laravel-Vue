@@ -326,6 +326,10 @@
 		}
 	}
 
+	@media (max-width: 600px) {
+		padding: 0;
+	}
+
 	@media (max-width: 700px) {
 		&__column-order {
 			width: 100%;
@@ -369,15 +373,14 @@
 		
 	}
 
-	&__radio-controller {
+	&__content {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		border-color: #000000;
-		cursor: pointer;
 
 		&:not(:last-child) {
-			padding: 0px 0px 10px 0px;
+			margin: 0px 0px 10px 0px;
 		}
 	}
 
@@ -389,16 +392,8 @@
 		cursor: pointer;
 	}
 
-	&__content {
-
-	}
-
 	&__title {
-
-	}
-
-	&__price {
-
+		cursor: pointer;
 	}
 }
 

@@ -21,10 +21,15 @@
 	&__container {
 		display: flex;
 		flex-direction: row;
+		
 	}
 
 	&__images {
+		flex: 0 1 60%;
+	}
 
+	&__details {
+		flex: 0 1 40%;
 	}
 	
 	@media (max-width: 1000px) {
@@ -34,7 +39,6 @@
 	}
 }
 .images {
-	flex: 0 1 80%;
 
 	&__body {
 		display: flex;
@@ -147,12 +151,6 @@
 }
 
 /*---------------Details---------------*/
-.main {
-
-	&__details {
-
-	}
-}
 .details {
 	padding: 0px 0px 100px 0px;
 
@@ -193,10 +191,6 @@
 		font-size: 14px;
 		font-weight: 600;
 		color: #FFFFFF;
-
-		&:before {
-			content: 'В корзину';
-		}
 
 		&.disabled {
 			pointer-events: none;

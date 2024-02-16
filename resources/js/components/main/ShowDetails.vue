@@ -11,6 +11,7 @@ export default {
     data() {
         return {
             product: 0,
+            selected: undefined,
         }
     },
 
@@ -70,7 +71,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="main__details details">
+                <div class="product-info__details details">
                     <div class="details__body">
                         <div class="details__header-block header-block">
                             <h2 class="header-block__title">{{ product.title }}</h2>
@@ -85,11 +86,11 @@ export default {
                                 <span class="size-block__title">Размер:</span>
                                 <ul class="size-block__list">
                                     <li v-for="size in product.sizes" class="size-block__button-wrapper">
-                                        <button class="size-block__button" type="button">{{ size.title }}</button>
+                                        <button :class="{active:size.id === selected}" @click="selected = size.id" class="size-block__button" type="button">{{ size.title }}</button>
                                     </li>
                                 </ul>
                             </div>
-                            <button class="details__cart-button _button" type="submit"></button>
+                            <button class="details__cart-button _button" type="submit">В корзину</button>
                         </div>
                         <div class="details__description">
                             <p>{{ product.description }}</p>

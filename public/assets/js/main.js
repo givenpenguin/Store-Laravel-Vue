@@ -1,115 +1,137 @@
 jQuery(function ($) {
-	'use strict';
+    'use strict';
 
-	$(document).on('change', function (){
+    $(document).on('change', function () {
 
-		/* ================== Simple buttons ================== */
+        /* ================== Simple buttons ================== */
 
-		$(".cart-button").on("click", function() {
-			$(".drawer").addClass("active");
-			$(".header__drawer-closer").fadeIn();
-		});
+        // $(".tab-main__link").on("click", function () {
+        //     $(".tab-main").removeClass("active");
+        //     $(".burger-menu").removeClass("active");
+        // });
 
-		$(".header-block__cancel").on("click", function() {
-			$(".drawer").removeClass("active");
-			$(".header__drawer-closer").fadeOut();
-		});
 
-		$(".header__drawer-closer").on("click", function() {
-			$(".drawer").removeClass("active");
-			$(".header__drawer-closer").fadeOut();
-		});
+        $(".main__closer").on("click", function () {
+            $(".sidebar__content").removeClass("active");
+            $(".drawer").removeClass("active");
+            $(".main__closer").fadeOut();
+        });
 
-		/* ================== Show details ================== */
+        $(".header-block__cancel").on("click", function () {
+            $(".drawer").removeClass("active");
+            $(".sidebar__content").removeClass("active");
+            $(".main__closer").fadeOut();
+        });
 
-		$(".size-block__button").on("click", function() {
-			$(".size-block__button").removeClass("active");
-			$(this).addClass("active");
-		});
 
-		$("._arrow-next").on("click", function() {
-			var currentImage = $(".admin-images__image.active");
-			var currentImageIndex = $(".admin-images__image.active").index();
-			var nextImageIndex = currentImageIndex + 1;
-			var nextImage = $(".admin-images__image").eq(nextImageIndex);
+        $(".cart-button").on("click", function () {
+            $(".drawer").addClass("active");
+            $(".main__closer").fadeIn();
+        });
 
-			var currentGalleryImage = $(".gallery__image.active");
-			var nextGalleryImage = $(".gallery__image").eq(nextImageIndex);
+        $(".details__cart-button").on("click", function () {
+            $(".drawer").addClass("active");
+            $(".main__closer").fadeIn();
+        });
 
-			currentImage.removeClass("active");
-			currentGalleryImage.removeClass("active");
 
-			if(nextImageIndex === ($(".admin-images__image:last").index() + 1)) {
-				$(".admin-images__image").eq(0).addClass("active");
-				$(".gallery__image").eq(0).addClass("active");
-			} else {
-				nextImage.addClass("active");
-				nextGalleryImage.addClass("active");
-			}
-		});
+        $(".arrow-right").on("click", function () {
+            $(".sidebar__content").addClass("active");
+            $(".main__closer").fadeIn();
+        });
 
-		$("._arrow-prev").on("click", function() {
-			var currentImage = $(".admin-images__image.active");
-			var currentImageIndex = $(".admin-images__image.active").index();
-			var prevImageIndex = currentImageIndex - 1;
-			var prevImage = $(".admin-images__image").eq(prevImageIndex);
+        /* ================== Show details ================== */
 
-			var currentGalleryImage = $(".gallery__image.active");
-			var prevGalleryImage = $(".gallery__image").eq(prevImageIndex);
+        $(".size-block__button").on("click", function () {
+            $(".size-block__button").removeClass("active");
+            $(this).addClass("active");
+        });
 
-			currentImage.removeClass("active");
-			prevImage.addClass("active");
+        $("._arrow-next").on("click", function () {
+            var currentImage = $(".main-images__image.active");
+            var currentImageIndex = $(".main-images__image.active").index();
+            var nextImageIndex = currentImageIndex + 1;
+            var nextImage = $(".main-images__image").eq(nextImageIndex);
 
-			currentGalleryImage.removeClass("active");
-			prevGalleryImage.addClass("active");
-		});
+            var currentGalleryImage = $(".gallery__image.active");
+            var nextGalleryImage = $(".gallery__image").eq(nextImageIndex);
 
-		$(".gallery__image").on("click", function() {
-			var currentImage = $(".admin-images__image.active");
-			var currentImageIndex = $(".admin-images__image.active").index();
-			var currentGalleryImage = $(".gallery__image").eq(currentImageIndex);
-			var nextGalleryImage = $(this);
-			var nextGalleryImageIndex = $(this).index();
-			var nextImage = $(".admin-images__image").eq(nextGalleryImageIndex);
+            currentImage.removeClass("active");
+            currentGalleryImage.removeClass("active");
 
-			currentImage.removeClass("active");
-			currentGalleryImage.removeClass("active");
+            if (nextImageIndex === ($(".main-images__image:last").index() + 1)) {
+                $(".main-images__image").eq(0).addClass("active");
+                $(".gallery__image").eq(0).addClass("active");
+            } else {
+                nextImage.addClass("active");
+                nextGalleryImage.addClass("active");
+            }
+        });
 
-			nextImage.addClass("active");
-			nextGalleryImage.addClass("active");
-		});
+        $("._arrow-prev").on("click", function () {
+            var currentImage = $(".main-images__image.active");
+            var currentImageIndex = $(".main-images__image.active").index();
+            var prevImageIndex = currentImageIndex - 1;
+            var prevImage = $(".main-images__image").eq(prevImageIndex);
 
-		/* ================== Cart quantity ================== */
+            var currentGalleryImage = $(".gallery__image.active");
+            var prevGalleryImage = $(".gallery__image").eq(prevImageIndex);
 
-		var minValue = 1;
-		var maxValue = 10;
+            currentImage.removeClass("active");
+            prevImage.addClass("active");
 
-		$(".decrease-button").on("click", function() {
-			var value = $(".quantity__value").val();
+            currentGalleryImage.removeClass("active");
+            prevGalleryImage.addClass("active");
+        });
 
-			if(value > minValue) {
-				value--;
-			}
+        $(".gallery__image").on("click", function () {
+            var currentImage = $(".main-images__image.active");
+            var currentImageIndex = $(".main-images__image.active").index();
+            var currentGalleryImage = $(".gallery__image").eq(currentImageIndex);
+            var nextGalleryImage = $(this);
+            var nextGalleryImageIndex = $(this).index();
+            var nextImage = $(".main-images__image").eq(nextGalleryImageIndex);
 
-			$(".quantity__value").val(value);
-		});
+            currentImage.removeClass("active");
+            currentGalleryImage.removeClass("active");
 
-		$(".increase-button").on("click", function() {
-			var value = $(".quantity__value").val();
+            nextImage.addClass("active");
+            nextGalleryImage.addClass("active");
+        });
 
-			if(value < maxValue) {
-				value++;
-			}
+        /* ================== Cart quantity ================== */
 
-			$(".quantity__value").val(value);
-		});
+        var minValue = 1;
+        var maxValue = 10;
 
-		$('.quantity__value').on("blur", function (){
-			var inputValue = $(this).val();
+        $(".decrease-button").on("click", function () {
+            var value = $(".quantity__value").val();
 
-			if(inputValue < minValue || inputValue > maxValue) {
-				$(".quantity__value").val(1);
-			}
-		});
-	})
+            if (value > minValue) {
+                value--;
+            }
+
+            $(".quantity__value").val(value);
+        });
+
+        $(".increase-button").on("click", function () {
+            var value = $(".quantity__value").val();
+
+            if (value < maxValue) {
+                value++;
+            }
+
+            $(".quantity__value").val(value);
+        });
+
+        $('.quantity__value').on("blur", function () {
+            var inputValue = $(this).val();
+
+            if (inputValue < minValue || inputValue > maxValue) {
+                $(".quantity__value").val(1);
+            }
+        });
+
+    });
+
 }(jQuery));

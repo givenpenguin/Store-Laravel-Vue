@@ -5,6 +5,26 @@ export default {
     mounted() {
         $(document).trigger('change')
     },
+
+    data() {
+        return {
+            currentPage: '',
+            isOn: false,
+        }
+    },
+
+    methods: {
+        toggleBurger() {
+            this.isOn = !this.isOn;
+        },
+    },
+
+    created() {
+        this.currentPage = this.$route.name;
+        this.$router.afterEach((to, from) => {
+            this.currentPage = to.name;
+        });
+    }
 }
 </script>
 
@@ -13,7 +33,28 @@ export default {
         <header class="header">
             <div class="header__main-menu main-menu">
                 <div class="main-menu__container _container">
-                    <router-link :to="{name: 'home'}" class="main-menu__logo">évanouir</router-link>
+                    <div class="main-menu__logo logo">
+                        <router-link :to="{name: 'home'}" class="logo__link">évanouir</router-link>
+                    </div>
+                    <nav class="main-menu__tab tab-header">
+                        <ul class="tab-header__list">
+                            <li class="tab-header__item">
+                                <div class="tab-header__link-wrapper">
+                                    <router-link :to="{name: 'home'}" :class="{active:currentPage === 'home'}" class="tab-header__link">КАТАЛОГ</router-link>
+                                </div>
+                            </li>
+                            <li class="tab-header__item">
+                                <div class="tab-header__link-wrapper">
+                                    <router-link :to="{name: 'payment'}" :class="{active:currentPage === 'payment'}" class="tab-header__link">ОПЛАТА</router-link>
+                                </div>
+                            </li>
+                            <li class="tab-header__item">
+                                <div class="tab-header__link-wrapper">
+                                    <router-link :to="{name: 'shipping'}" :class="{active:currentPage === 'shipping'}" class="tab-header__link">ДОСТАВКА</router-link>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
                     <nav class="main-menu__menu menu">
                         <ul class="menu__list">
                             <li class="menu__item">
@@ -59,68 +100,65 @@ export default {
                                     </div>
                                 </div>
                             </li>
+                            <li class="menu__item">
+                                <div class="menu__link link">
+                                    <div :class="isOn ? 'active' : ''" @click="toggleBurger" class="link__button burger-menu">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M1 6H23" stroke="black" stroke-width="2" stroke-linecap="round"
+                                                  stroke-linejoin="round" />
+                                            <path d="M1 12H23" stroke="black" stroke-width="2" stroke-linecap="round"
+                                                  stroke-linejoin="round" />
+                                            <path d="M1 12H23" stroke="black" stroke-width="2" stroke-linecap="round"
+                                                  stroke-linejoin="round" />
+                                            <path d="M1 18H23" stroke="black" stroke-width="2" stroke-linecap="round"
+                                                  stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <div class="header__drawer-closer"></div>
             <div class="header__drawer drawer">
-                <div class="drawer__container _container">
+                <div class="drawer__container">
                     <div class="drawer__body">
                         <div class="drawer__header-block header-block">
                             <h2 class="header-block__title">Корзина</h2>
                             <div class="header-block__cancel _button-svg">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round" />
+                                    <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round" />
                                 </svg>
                             </div>
                         </div>
                         <div class="drawer__items">
                             <div class="drawer__column">
                                 <div class="drawer__item-cart item-cart">
-                                    <a href="show-details.html" class="item-cart__link">
+<!--                                    <router-link :to="{name: 'product', params: {id: product.id}}" class="item-cart__link">-->
                                         <div class="item-cart__wrapper">
                                             <div class="item-cart__image _ibg">
-                                                <img src="/assets/images/photos/bomber1.png" alt="bomber">
+                                                <img src="assets/images/photos/bomber1.png" alt="bomber">
                                             </div>
                                             <div class="item-cart__content">
                                                 <h3 class="item-cart__title">Bomber</h3>
                                                 <p class="item-cart__info">
-                                                    <span class="item-cart__count">2 X</span>
                                                     <span class="item-cart__price">6200 р.</span>
                                                 </p>
                                             </div>
                                         </div>
-                                    </a>
+<!--                                    </router-link>-->
                                     <div class="item-cart__remove _button-svg">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="drawer__column">
-                                <div class="drawer__item-cart item-cart">
-                                    <a href="show-details.html" class="item-cart__link">
-                                        <div class="item-cart__wrapper">
-                                            <div class="item-cart__image _ibg">
-                                                <img src="/assets/images/photos/bomber1.png" alt="bomber">
-                                            </div>
-                                            <div class="item-cart__content">
-                                                <h3 class="item-cart__title">Bomber</h3>
-                                                <p class="item-cart__info">
-                                                    <span class="item-cart__count">2 X</span>
-                                                    <span class="item-cart__price">6200 р.</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="item-cart__remove _button-svg">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2"
+                                                  stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2"
+                                                  stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </div>
                                 </div>
@@ -128,7 +166,8 @@ export default {
                         </div>
                         <div class="drawer__amount-block amount-block-drawer">
                             <div class="amount-block-drawer__total">
-                                <span class="amount-block-drawer__text">Итого:</span><span class="amount-block-drawer__amount">12400 р.</span>
+                                <span class="amount-block-drawer__text">Итого:</span>
+                                <span class="amount-block-drawer__amount">12400 р.</span>
                             </div>
                             <a href="cart.html" class="amount-block-drawer__button _button">Оформить заказ</a>
                         </div>
@@ -137,14 +176,78 @@ export default {
             </div>
         </header>
 
-       <router-view></router-view>
+        <main class="main">
+            <div class="main__closer"></div>
+            <div :class="isOn ? 'active' : ''" class="main__tab tab-main">
+                <div class="tab-main__container _container">
+                    <div class="tab-main__body">
+                        <nav class="tab-main__content">
+                            <ul class="tab-main__list">
+                                <li class="tab-main__item">
+                                    <div class="tab-main__link-wrapper">
+                                        <router-link :to="{name: 'home'}" :class="{active:currentPage === 'home'}" @click="toggleBurger" class="tab-main__link">КАТАЛОГ</router-link>
+                                    </div>
+                                </li>
+                                <li class="tab-main__item">
+                                    <div class="tab-main__link-wrapper">
+                                        <router-link :to="{name: 'payment'}" :class="{active:currentPage === 'payment'}" @click="toggleBurger" class="tab-main__link">ОПЛАТА</router-link>
+                                    </div>
+                                </li>
+                                <li class="tab-main__item">
+                                    <div class="tab-main__link-wrapper">
+                                        <router-link :to="{name: 'shipping'}" :class="{active:currentPage === 'shipping'}" @click="toggleBurger" class="tab-main__link">ДОСТАВКА</router-link>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="tab-main__footer">
+                            <span class="tab-main__copyright">ÉVANOUIR © {{new Date().getFullYear()}}</span>
+                            <div class="tab-main__socials">
+                                <div class="tab-main__social">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                        <path
+                                            d="M248 8C111 8 0 119 0 256S111 504 248 504 496 393 496 256 385 8 248 8zM363 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5q-3.3 .7-104.6 69.1-14.8 10.2-26.9 9.9c-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3q.8-6.7 18.5-13.7 108.4-47.2 144.6-62.3c68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9a10.5 10.5 0 0 1 3.5 6.7A43.8 43.8 0 0 1 363 176.7z" />
+                                    </svg>
+                                </div>
+                                <div class="tab-main__social">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path
+                                            d="M31.5 63.5C0 95 0 145.7 0 247V265C0 366.3 0 417 31.5 448.5C63 480 113.7 480 215 480H233C334.3 480 385 480 416.5 448.5C448 417 448 366.3 448 265V247C448 145.7 448 95 416.5 63.5C385 32 334.3 32 233 32H215C113.7 32 63 32 31.5 63.5zM75.6 168.3H126.7C128.4 253.8 166.1 290 196 297.4V168.3H244.2V242C273.7 238.8 304.6 205.2 315.1 168.3H363.3C359.3 187.4 351.5 205.6 340.2 221.6C328.9 237.6 314.5 251.1 297.7 261.2C316.4 270.5 332.9 283.6 346.1 299.8C359.4 315.9 369 334.6 374.5 354.7H321.4C316.6 337.3 306.6 321.6 292.9 309.8C279.1 297.9 262.2 290.4 244.2 288.1V354.7H238.4C136.3 354.7 78 284.7 75.6 168.3z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <router-view></router-view>
+        </main>
 
         <footer class="footer">
-            <div class="footer__bottom">
+            <div class="footer__wrapper">
                 <div class="footer__container _container">
                     <div class="footer__body">
-                        <div class="footer__copyright">
-                            <span>ÉVANOUIR © {{ new Date().getFullYear() }}</span>
+                        <div class="footer__info">
+                            <span class="footer__copyright">ÉVANOUIR © {{new Date().getFullYear()}}</span>
+                            <div class="footer__links">
+                                <router-link :to="{name: 'privacy-policy'}" class="footer__link">Политика в отношении обработки
+                                    персональных данных</router-link>
+                                <router-link :to="{name: 'public-offer'}" class="footer__link">Договор публичной оферты</router-link>
+                            </div>
+                        </div>
+                        <div class="footer__socials">
+                            <a href="#" class="footer__social">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                    <path
+                                        d="M248 8C111 8 0 119 0 256S111 504 248 504 496 393 496 256 385 8 248 8zM363 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5q-3.3 .7-104.6 69.1-14.8 10.2-26.9 9.9c-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3q.8-6.7 18.5-13.7 108.4-47.2 144.6-62.3c68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9a10.5 10.5 0 0 1 3.5 6.7A43.8 43.8 0 0 1 363 176.7z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="footer__social">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path
+                                        d="M31.5 63.5C0 95 0 145.7 0 247V265C0 366.3 0 417 31.5 448.5C63 480 113.7 480 215 480H233C334.3 480 385 480 416.5 448.5C448 417 448 366.3 448 265V247C448 145.7 448 95 416.5 63.5C385 32 334.3 32 233 32H215C113.7 32 63 32 31.5 63.5zM75.6 168.3H126.7C128.4 253.8 166.1 290 196 297.4V168.3H244.2V242C273.7 238.8 304.6 205.2 315.1 168.3H363.3C359.3 187.4 351.5 205.6 340.2 221.6C328.9 237.6 314.5 251.1 297.7 261.2C316.4 270.5 332.9 283.6 346.1 299.8C359.4 315.9 369 334.6 374.5 354.7H321.4C316.6 337.3 306.6 321.6 292.9 309.8C279.1 297.9 262.2 290.4 244.2 288.1V354.7H238.4C136.3 354.7 78 284.7 75.6 168.3z" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +258,7 @@ export default {
 
 <style>
     span {
-        margin: 2px;
+        margin: 0 2px;
     }
     .wrapper {
         min-height: 100vh;
