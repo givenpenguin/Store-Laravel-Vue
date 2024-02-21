@@ -6,6 +6,7 @@ export default {
     mounted() {
         $(document).trigger('change')
         this.getProducts()
+        this.getFilterList()
 
         let rangeMin = 0;
         const range = document.querySelector(".slider__selected");
@@ -70,6 +71,8 @@ export default {
         return {
             hover: false,
             products: [],
+            filterList: [],
+            prices: [],
             pagination: [],
         }
     },
@@ -84,6 +87,18 @@ export default {
                     console.log(res)
                     this.products = res.data.data
                     this.pagination = res.data.meta
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        getFilterList() {
+            axios
+                .get('http://127.0.0.1:8888/api/admin/products/filters')
+                .then(res => {
+                    console.log(res)
+                    this.filterList = res.data
+                    this.prices = res.data.price
                 })
                 .catch(error => {
                     console.log(error)
@@ -124,9 +139,20 @@ export default {
                                         <div class="sidebar__filter filter">
                                             <h3 class="filter__title">Категории</h3>
                                             <div class="filter__content">
-                                                <label class="filter__option option">
+                                                <label v-for="category in filterList.categories" class="filter__option option">
                                                     <input class="option__check" type="checkbox" name="filter_option">
-                                                    <span class="option__title">Футболки</span>
+                                                    <span class="option__title">{{ category.title }}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar__column">
+                                        <div class="sidebar__filter filter">
+                                            <h3 class="filter__title">Размеры</h3>
+                                            <div class="filter__content">
+                                                <label v-for="size in filterList.sizes" class="filter__option option">
+                                                    <input class="option__check" type="checkbox" name="filter_option">
+                                                    <span class="option__title">{{ size.title }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -139,13 +165,13 @@ export default {
                                                     <span class="slider__selected"></span>
                                                 </div>
                                                 <div class="slider__input">
-                                                    <input class="slider__dot" type="range" min="0" max="10000" value="0" step="10">
-                                                    <input class="slider__dot" type="range" min="0" max="10000" value="10000" step="10">
+                                                    <input class="slider__dot" type="range" :min="prices.min" :max="prices.max" :value="prices.min" step="100">
+                                                    <input class="slider__dot" type="range" :min="prices.min" :max="prices.max" :value="prices.max" step="100">
                                                 </div>
                                                 <div class="slider__price">
-                                                    <input class="slider__value" type="number" name="min" value="0">
+                                                    <input class="slider__value" type="number" name="min" :value="prices.min">
                                                     <span class="slider__separator">&ndash;</span>
-                                                    <input class="slider__value" type="number" name="max" value="10000">
+                                                    <input class="slider__value" type="number" name="max" :value="prices.max">
                                                 </div>
                                             </div>
                                         </div>

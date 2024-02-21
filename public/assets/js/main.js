@@ -4,13 +4,6 @@ jQuery(function ($) {
     $(document).on('change', function () {
 
         /* ================== Simple buttons ================== */
-
-        // $(".tab-main__link").on("click", function () {
-        //     $(".tab-main").removeClass("active");
-        //     $(".burger-menu").removeClass("active");
-        // });
-
-
         $(".main__closer").on("click", function () {
             $(".sidebar__content").removeClass("active");
             $(".drawer").removeClass("active");

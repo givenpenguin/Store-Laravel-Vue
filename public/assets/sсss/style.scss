@@ -90,8 +90,8 @@ label {
 	justify-content: center;
 	align-items: center;
 	column-gap: 10px;
-	transition: all 0.2s ease-in, color 0.2s ease-in;	
-	
+	transition: all 0.2s ease-in, color 0.2s ease-in;
+
 	&:hover {
 		color: #ffffff;
 		box-shadow: 0px 0px 14px 2px #00000038;
@@ -103,7 +103,7 @@ label {
 		font-size: 26px;
 		font-weight: 700;
 	}
-	
+
 	&__cancel{
 		border: none;
 		border-radius: 100%;
@@ -116,7 +116,7 @@ label {
 
 .main {
 	flex: 1 1 auto;
-	
+
 	&__closer {
 		position: fixed;
 		width: 100%;
@@ -132,7 +132,7 @@ label {
 	}
 
 	&__content {
-		
+
 	}
 }
 
@@ -232,7 +232,7 @@ label {
 	padding: 100px 0px 60px 0px;
 
 	&__container {
-		
+
 	}
 
 	&__body {
@@ -257,7 +257,7 @@ label {
 .sidebar {
 
 	&__arrows {
-		
+
 	}
 
 	&__arrow {
@@ -298,7 +298,7 @@ label {
 	}
 
 	&__container {
-		
+
 	}
 
 	&__body {
@@ -415,7 +415,7 @@ label {
 			width: 190px;
 			font-size: 15px;
 		}
-	}	
+	}
 }
 .arrow-right {
 	@media (max-width: 900px) {
@@ -457,7 +457,7 @@ label {
 	}
 
 	&__title {
-		font-size: 15px;	
+		font-size: 15px;
 	}
 
 	&__check {
@@ -480,14 +480,14 @@ label {
 .content {
 
 	&__products {
-		
+
 	}
 }
 .products {
 	width: 100%;
 
 	&__container {
-		
+
 	}
 
 	&__header {
@@ -497,7 +497,7 @@ label {
 	}
 
 	&__search {
-		
+
 	}
 
 	&__sort {
@@ -505,7 +505,7 @@ label {
 	}
 
 	&__body {
-		
+
 	}
 
 	&__column {
@@ -545,7 +545,7 @@ label {
 			padding: 0px 0px 20px 0px;
 		}
 
-		&__column {	
+		&__column {
 			margin: 0 0 15px 0;
 		}
 	}
@@ -621,8 +621,9 @@ label {
 	display: flex;
 	justify-content: center;
 	height: 30px;
-	
+
 	&__sort-select {
+        cursor: pointer;
 		padding: 0 5px;
 		border: 1px solid #b3b3b340;
 		width: 100%;
@@ -642,7 +643,7 @@ label {
 		padding: 0 0 100% 0;
 		margin: 0px 0px 20px 0px;
 	}
-	
+
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -661,7 +662,7 @@ label {
 	}
 
 	&__price {
-		
+
 		&:not(:last-child) {
 			margin: 0px 0px 10px 0px;
 		}
@@ -693,11 +694,11 @@ label {
 .main {
 
 	&__pagination {
-		
+
 	}
 }
 .pagination {
-	
+
 	&__container {
 
 	}
@@ -721,4 +722,4 @@ label {
 			color: #FFFFFF;
 		}
 	}
-}	
+}

@@ -1495,6 +1495,7 @@ label {
   height: 30px;
 }
 .sort__sort-select {
+  cursor: pointer;
   padding: 0 5px;
   border: 1px solid rgba(179, 179, 179, 0.2509803922);
   width: 100%;
