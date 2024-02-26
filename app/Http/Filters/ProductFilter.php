@@ -9,7 +9,7 @@ class ProductFilter extends AbstractFilter
     const TITLE = 'title';
     const CATEGORIES = 'categories';
     const SIZES = 'sizes';
-    const PRICE = 'price';
+    const PRICES = 'prices';
 
     protected function getCallbacks(): array
     {
@@ -17,7 +17,7 @@ class ProductFilter extends AbstractFilter
             self::TITLE => [$this, 'title'],
             self::CATEGORIES => [$this, 'categories'],
             self::SIZES => [$this, 'sizes'],
-            self::PRICE => [$this, 'price'],
+            self::PRICES => [$this, 'prices'],
         ];
     }
 
@@ -33,13 +33,13 @@ class ProductFilter extends AbstractFilter
 
     protected function sizes(Builder $builder, $value)
     {
-        $builder->whereHas('size_id', function ($b) use ($value) {
+        $builder->whereHas('sizes', function ($b) use ($value) {
             $b->whereIn('size_id', $value);
         });
     }
 
-    protected function price(Builder $builder, $value)
+    protected function prices(Builder $builder, $value)
     {
-        $builder->whereBetween($value['from'], $value['to']);
+        $builder->whereBetween('price', $value);
     }
 }
