@@ -12,6 +12,11 @@ const routes = [
         name: 'product',
     },
     {
+        path: '/cart',
+        component: () => import('./components/main/Cart.vue'),
+        name: 'cart',
+    },
+    {
         path: '/shipping',
         component: () => import('./components/main/information/Shipping.vue'),
         name: 'shipping',
@@ -30,6 +35,11 @@ const routes = [
         path: '/publicoffer',
         component: () => import('./components/main/information/PublicOffer.vue'),
         name: 'public-offer',
+    },
+    {
+        path: '/:catchAll(.*)',
+        component: () => import('./components/main/information/NotFound.vue'),
+        name: 'notfound',
     },
 ];
 

@@ -34,12 +34,6 @@ jQuery(function ($) {
         });
 
         /* ================== Show details ================== */
-
-        $(".size-block__button").on("click", function () {
-            $(".size-block__button").removeClass("active");
-            $(this).addClass("active");
-        });
-
         $("._arrow-next").on("click", function () {
             var currentImage = $(".main-images__image.active");
             var currentImageIndex = $(".main-images__image.active").index();
