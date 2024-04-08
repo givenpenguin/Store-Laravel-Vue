@@ -21,24 +21,24 @@ class ProductFilter extends AbstractFilter
         ];
     }
 
-    protected function title(Builder $builder, $value)
+    protected function title(Builder $builder, $value): void
     {
         $builder->whereIn($value['from'], 'like', "%{$value['to']}%");
     }
 
-    protected function categories(Builder $builder, $value)
+    protected function categories(Builder $builder, $value): void
     {
         $builder->whereIn('category_id', $value);
     }
 
-    protected function sizes(Builder $builder, $value)
+    protected function sizes(Builder $builder, $value): void
     {
         $builder->whereHas('sizes', function ($b) use ($value) {
             $b->whereIn('size_id', $value);
         });
     }
 
-    protected function prices(Builder $builder, $value)
+    protected function prices(Builder $builder, $value): void
     {
         $builder->whereBetween('price', $value);
     }

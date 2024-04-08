@@ -17,6 +17,17 @@ jQuery(function ($) {
         });
 
 
+        $(".filter__header-block").on("click", function() {
+            if($(this).parent().find(".filter__content").hasClass("active")) {
+                $(this).removeClass("active");
+                $(this).parent().find(".filter__content").removeClass("active");
+            } else {
+                $(this).addClass("active");
+                $(this).parent().find(".filter__content").addClass("active");
+            }
+        });
+
+
         $(".cart-button").on("click", function () {
             $(".drawer").addClass("active");
             $(".main__closer").fadeIn();

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbstractFilter implements FilterInterface
 {
-    private $queryParams = [];
+    private array $queryParams = [];
 
     public function __construct(array $queryParams)
     {
