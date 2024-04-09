@@ -13,7 +13,7 @@ export default {
         return {
             hover: false,
             isLoaded: false,
-            selected: undefined,
+            selectedFilters: [],
 
             products: [],
             filterList: [],
@@ -59,19 +59,19 @@ export default {
             this.pagination = data.meta
         },
         updateSliderRange() {
-            const rangeMin = 0;
-            const range = this.$refs["range"]
+            const rangeMin = 0
+            const range = this.$refs.range
 
-            let minRangeDot = this.$refs["rangeMin"]
-            let maxRangeDot = this.$refs["rangeMax"]
+            let minRangeDot = this.$refs.rangeMin
+            let maxRangeDot = this.$refs.rangeMax
 
-            let minRangeValue = this.$refs["priceMin"]
-            let maxRangeValue = this.$refs["priceMax"]
+            let minRangeValue = this.$refs.priceMin
+            let maxRangeValue = this.$refs.priceMax
 
-            const minDot = parseInt(minRangeDot.value)
-            const maxDot = parseInt(maxRangeDot.value)
+            let minDot = minRangeDot.value
+            let maxDot = maxRangeDot.value
 
-            if(event.target === rangeDot[0]) {
+            if(event.target === minRangeDot) {
                 minRangeDot.style.zIndex = '1';
                 maxRangeDot.style.zIndex = '0';
             } else {
@@ -80,41 +80,52 @@ export default {
             }
 
             if (maxDot - minDot < rangeMin) {
-                if (event.target === rangeDot[0]) {
-                    minRangeDot.value = String(maxDot - rangeMin);
+                if (event.target === minRangeDot) {
+                    minRangeDot.value = maxDot - rangeMin;
                 } else {
-                    maxRangeDot.value = String(minDot + rangeMin);
+                    maxRangeDot.value = minDot + rangeMin;
                 }
             } else {
-                minRangeValue.value = String(minDot);
-                maxRangeValue.value = String(maxDot);
+                minRangeValue.value = minDot;
+                maxRangeValue.value = maxDot;
 
                 range.style.left = ((minDot - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
                 range.style.right = 100 - ((maxDot - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
             }
         },
         updateSliderPrice() {
-            const rangeMin = 0;
-            const range = this.$refs["range"]
+            const rangeMin = 0
+            const range = this.$refs.range
 
-            let minRangeDot = this.$refs["rangeMin"]
-            let maxRangeDot = this.$refs["rangeMax"]
+            let minRangeDot = this.$refs.rangeMin
+            let maxRangeDot = this.$refs.rangeMax
 
-            let minRangeValue = this.$refs["priceMin"]
-            let maxRangeValue = this.$refs["priceMax"]
+            let minRangeValue = this.$refs.priceMin
+            let maxRangeValue = this.$refs.priceMax
 
-            const minValue = parseInt(minRangeValue.value)
-            const maxValue = parseInt(maxRangeValue.value)
+            let minValue = minRangeValue.value
+            let maxValue = maxRangeValue.value
 
             if (maxValue - minValue >= rangeMin) {
-                if (event.target === rangeValue[0]) {
-                    minRangeDot.value = String(minValue);
+                if (event.target === minRangeValue) {
+                    minRangeDot.value = minValue;
                     range.style.left = ((minRangeDot.value - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
                 } else {
-                    maxRangeDot.value = String(maxValue);
+                    maxRangeDot.value = maxValue;
                     range.style.right = 100 - ((maxRangeDot.value - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
                 }
             }
+        },
+        toggleFilter(filter) {
+            const index = this.selectedFilters.indexOf(filter);
+            if (index === -1) {
+                this.selectedFilters.push(filter);
+            } else {
+                this.selectedFilters.splice(index, 1);
+            }
+        },
+        activeFilter(filter) {
+            return this.selectedFilters.includes(filter);
         }
     }
 }
@@ -150,7 +161,7 @@ export default {
                                     <div class="sidebar__columns">
                                         <div class="sidebar__column">
                                             <div class="sidebar__filter filter">
-                                                <div class="filter__header-block" :class="{active:selected === 'categories'}" @click="selected='categories'">
+                                                <div class="filter__header-block" :class="{active:activeFilter('categories')}" @click="toggleFilter('categories')">
                                                     <h3 class="filter__title">Категории</h3>
                                                     <div class="filter__closer">
                                                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,7 +169,7 @@ export default {
                                                         </svg>
                                                     </div>
                                                 </div>
-                                                <div class="filter__content" :class="{active:selected === 'categories'}">
+                                                <div class="filter__content" :class="{active:activeFilter('categories')}">
                                                     <label v-for="category in filterList.categories" class="filter__option option">
                                                         <input :value="category.id" v-model="categories" class="option__check" type="checkbox" name="filter_option">
                                                         <span class="option__title">{{ category.title }}</span>
@@ -168,7 +179,7 @@ export default {
                                         </div>
                                         <div class="sidebar__column">
                                             <div class="sidebar__filter filter">
-                                                <div class="filter__header-block">
+                                                <div class="filter__header-block" :class="{active:activeFilter('sizes')}" @click="toggleFilter('sizes')">
                                                     <h3 class="filter__title">Размеры</h3>
                                                     <div class="filter__closer">
                                                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,7 +187,7 @@ export default {
                                                         </svg>
                                                     </div>
                                                 </div>
-                                                <div class="filter__content">
+                                                <div class="filter__content" :class="{active:activeFilter('sizes')}">
                                                     <label v-for="size in filterList.sizes" class="filter__option option">
                                                         <input :value="size.id" v-model="sizes" class="option__check" type="checkbox" name="filter_option">
                                                         <span class="option__title">{{ size.title }}</span>
@@ -186,7 +197,7 @@ export default {
                                         </div>
                                         <div class="sidebar__column">
                                             <div class="sidebar__filter filter">
-                                                <div class="filter__header-block">
+                                                <div class="filter__header-block" :class="{active:activeFilter('prices')}" @click="toggleFilter('prices')">
                                                     <h3 class="filter__title">Цена</h3>
                                                     <div class="filter__closer">
                                                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -194,7 +205,7 @@ export default {
                                                         </svg>
                                                     </div>
                                                 </div>
-                                                <div class="filter__content slider">
+                                                <div class="filter__content slider" :class="{active:activeFilter('prices')}">
                                                     <div class="slider__range">
                                                         <span class="slider__selected" ref="range"></span>
                                                     </div>
@@ -255,40 +266,40 @@ export default {
                                     </div>
                                 </div>
                             </div>
+                            <div class="products__pagination pagination">
+                                <div class="pagination__container _container">
+                                    <ul class="pagination__body">
+                                        <li class="pagination__button">
+                                            <a @click.prevent="getProducts(pagination?.current_page - 1)" v-if="pagination?.current_page !== 1" href="#" class="pagination__link _button-svg">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15 18L9 12L15 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
+                                                          stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                        <li v-for="link in pagination?.links" class="pagination__button">
+                                            <template v-if="Number(link.label) &&
+                                                (pagination?.current_page - link.label < 2 && link.label - pagination?.current_page < 2) ||
+                                                Number(link.label) === 1 || Number(link.label) === pagination?.last_page">
+                                                <a @click.prevent="getProducts(link.label)" :class="link.active ? 'active' : ''" href="#" class="pagination__link _button-svg">{{ link.label }}</a>
+                                            </template>
+                                        </li>
+                                        <li class="pagination__button">
+                                            <a @click.prevent="getProducts(pagination?.current_page + 1)" v-if="pagination?.current_page !== pagination?.last_page" href="#" class="pagination__link _button-svg">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9 18L15 12L9 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
+                                                          stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="main__pagination pagination">
-            <div class="pagination__container _container">
-                <ul class="pagination__body">
-                    <li class="pagination__button">
-                        <a @click.prevent="getProducts(pagination?.current_page - 1)" v-if="pagination?.current_page !== 1" href="#" class="pagination__link _button-svg">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 18L9 12L15 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li v-for="link in pagination?.links" class="pagination__button">
-                        <template v-if="Number(link.label) &&
-                        (pagination?.current_page - link.label < 2 && link.label - pagination?.current_page < 2) ||
-                        Number(link.label) === 1 || Number(link.label) === pagination?.last_page">
-                            <a @click.prevent="getProducts(link.label)" :class="link.active ? 'active' : ''" href="#" class="pagination__link _button-svg">{{ link.label }}</a>
-                        </template>
-                    </li>
-                    <li class="pagination__button">
-                        <a @click.prevent="getProducts(pagination?.current_page + 1)" v-if="pagination?.current_page !== pagination?.last_page" href="#" class="pagination__link _button-svg">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 18L15 12L9 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

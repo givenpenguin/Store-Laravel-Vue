@@ -91,8 +91,8 @@ label, .filter__title {
 	justify-content: center;
 	align-items: center;
 	column-gap: 10px;
-	transition: all 0.2s ease-in, color 0.2s ease-in;
-
+	transition: all 0.2s ease-in, color 0.2s ease-in;	
+	
 	&:hover {
 		color: #ffffff;
 		box-shadow: 0px 0px 14px 2px #00000038;
@@ -104,7 +104,7 @@ label, .filter__title {
 		font-size: 26px;
 		font-weight: 700;
 	}
-
+	
 	&__cancel{
 		border: none;
 		border-radius: 100%;
@@ -117,7 +117,7 @@ label, .filter__title {
 
 .main {
 	flex: 1 1 auto;
-
+	
 	&__closer {
 		position: fixed;
 		width: 100%;
@@ -133,7 +133,7 @@ label, .filter__title {
 	}
 
 	&__content {
-
+		
 	}
 }
 
@@ -233,7 +233,7 @@ label, .filter__title {
 	padding: 100px 0px 60px 0px;
 
 	&__container {
-
+		
 	}
 
 	&__body {
@@ -285,7 +285,7 @@ label, .filter__title {
 .sidebar {
 
 	&__arrows {
-
+		
 	}
 
 	&__arrow {
@@ -326,7 +326,7 @@ label, .filter__title {
 	}
 
 	&__container {
-
+		
 	}
 
 	&__body {
@@ -361,8 +361,8 @@ label, .filter__title {
 
 	&__button {
 		text-transform: uppercase;
-        height: 42px;
-        width: 140px;
+		height: 42px;
+		width: 140px;
 		border-radius: 12px;
 		background: #000000;
 		font-size: 13px;
@@ -443,7 +443,7 @@ label, .filter__title {
 			width: 190px;
 			font-size: 15px;
 		}
-	}
+	}	
 }
 .arrow-right {
 	@media (max-width: 900px) {
@@ -471,7 +471,7 @@ label, .filter__title {
 	}
 
 	&__closer {
-
+		
 	}
 
 	&__content {
@@ -506,7 +506,7 @@ label, .filter__title {
 	}
 
 	&__title {
-		font-size: 15px;
+		font-size: 15px;	
 	}
 
 	&__check {
@@ -529,14 +529,14 @@ label, .filter__title {
 .content {
 
 	&__products {
-
+		
 	}
 }
 .products {
 	width: 100%;
 
 	&__container {
-
+		
 	}
 
 	&__header {
@@ -546,7 +546,7 @@ label, .filter__title {
 	}
 
 	&__search {
-
+		
 	}
 
 	&__sort {
@@ -554,6 +554,10 @@ label, .filter__title {
 	}
 
 	&__body {
+		padding: 0px 0px 60px 0px;
+	}
+
+	&__pagination {
 
 	}
 
@@ -594,7 +598,7 @@ label, .filter__title {
 			padding: 0px 0px 20px 0px;
 		}
 
-		&__column {
+		&__column {	
 			margin: 0 0 15px 0;
 		}
 	}
@@ -670,7 +674,7 @@ label, .filter__title {
 	display: flex;
 	justify-content: center;
 	height: 30px;
-
+	
 	&__sort-select {
 		cursor: pointer;
 		padding: 0 5px;
@@ -692,7 +696,7 @@ label, .filter__title {
 		padding: 0 0 100% 0;
 		margin: 0px 0px 20px 0px;
 	}
-
+	
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -711,7 +715,7 @@ label, .filter__title {
 	}
 
 	&__price {
-
+		
 		&:not(:last-child) {
 			margin: 0px 0px 10px 0px;
 		}
@@ -740,14 +744,14 @@ label, .filter__title {
 
 /*---------------Pagination---------------*/
 
-.main {
+.products {
 
 	&__pagination {
-
+		
 	}
 }
 .pagination {
-
+	
 	&__container {
 
 	}
@@ -771,4 +775,4 @@ label, .filter__title {
 			color: #FFFFFF;
 		}
 	}
-}
+}	

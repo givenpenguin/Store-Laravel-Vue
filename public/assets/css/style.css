@@ -805,7 +805,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   padding: 0 0 100% 0;
   border: 1px solid rgba(170, 170, 170, 0.2509803922);
-    cursor: pointer;
+  cursor: pointer;
 }
 .gallery__image.active {
   border: 1px solid rgba(74, 74, 74, 0.3882352941);
@@ -1345,8 +1345,8 @@ label, .filter__title {
 }
 .sidebar__button {
   text-transform: uppercase;
-    height: 42px;
-    width: 140px;
+  height: 42px;
+  width: 140px;
   border-radius: 12px;
   background: #000000;
   font-size: 13px;
@@ -1484,6 +1484,9 @@ label, .filter__title {
   display: flex;
   justify-content: space-between;
   padding: 0px 0px 15px 0px;
+}
+.products__body {
+  padding: 0px 0px 60px 0px;
 }
 .products__column {
   flex: 0 1 33.33%;
