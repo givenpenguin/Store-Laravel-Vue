@@ -23,7 +23,7 @@ class ProductFilter extends AbstractFilter
 
     protected function title(Builder $builder, $value): void
     {
-        $builder->whereIn($value['from'], 'like', "%{$value['to']}%");
+        $builder->where('title', 'like', "%{$value}%");
     }
 
     protected function categories(Builder $builder, $value): void

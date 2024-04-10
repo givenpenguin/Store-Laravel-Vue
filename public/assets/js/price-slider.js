@@ -1,59 +1,59 @@
-let rangeMin = 0;
-const range = document.querySelector(".slider__selected");
-const rangeDot = document.querySelectorAll(".slider__dot");
-const rangeValue = document.querySelectorAll(".slider__value");
+export function updateSliderRange() {
+    const rangeMin = 0
+    const range = this.$refs.range
 
-rangeDot.forEach((input) => {
-    input.addEventListener("input", (event) => {
-        let minDot = parseInt(rangeDot[0].value);
-        let maxDot = parseInt(rangeDot[1].value);
+    let minRangeDot = this.$refs.rangeMin
+    let maxRangeDot = this.$refs.rangeMax
 
-        if(event.target === rangeDot[0]) {
-            rangeDot[0].style.zIndex = 1;
-            rangeDot[1].style.zIndex = 0;
+    let minRangeValue = this.$refs.priceMin
+    let maxRangeValue = this.$refs.priceMax
+
+    let minDot = minRangeDot.value
+    let maxDot = maxRangeDot.value
+
+    if(event.target === minRangeDot) {
+        minRangeDot.style.zIndex = '1';
+        maxRangeDot.style.zIndex = '0';
+    } else {
+        minRangeDot.style.zIndex = '0';
+        maxRangeDot.style.zIndex = '1';
+    }
+
+    if (maxDot - minDot < rangeMin) {
+        if (event.target === minRangeDot) {
+            minRangeDot.value = maxDot - rangeMin;
         } else {
-            rangeDot[0].style.zIndex = 0;
-            rangeDot[1].style.zIndex = 1;
+            maxRangeDot.value = minDot + rangeMin;
         }
+    } else {
+        minRangeValue.value = minDot;
+        maxRangeValue.value = maxDot;
 
-        if (maxDot - minDot < rangeMin) {
-            if (event.target === rangeDot[0]) {
-                rangeDot[0].value = maxDot - rangeMin;
-            } else {
-                rangeDot[1].value = minDot + rangeMin;
-            }
+        range.style.left = ((minDot - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
+        range.style.right = 100 - ((maxDot - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
+    }
+}
+
+export function updateSliderPrice() {
+    const rangeMin = 0
+    const range = this.$refs.range
+
+    let minRangeDot = this.$refs.rangeMin
+    let maxRangeDot = this.$refs.rangeMax
+
+    let minRangeValue = this.$refs.priceMin
+    let maxRangeValue = this.$refs.priceMax
+
+    let minValue = minRangeValue.value
+    let maxValue = maxRangeValue.value
+
+    if (maxValue - minValue >= rangeMin) {
+        if (event.target === minRangeValue) {
+            minRangeDot.value = minValue;
+            range.style.left = ((minRangeDot.value - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
         } else {
-            rangeValue[0].value = minDot;
-            rangeValue[1].value = maxDot;
-            range.style.left = (minDot / rangeDot[0].max) * 100 + "%";
-            range.style.right = 100 - (maxDot / rangeDot[1].max) * 100 + "%";
+            maxRangeDot.value = maxValue;
+            range.style.right = 100 - ((maxRangeDot.value - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
         }
-    });
-});
-
-rangeValue.forEach((input) => {
-    input.addEventListener("input", (event) => {
-        let minValue = rangeValue[0].value;
-        let maxValue = rangeValue[1].value;
-
-        if (maxValue - minValue >= rangeMin) {
-            if (event.target === rangeValue[0]) {
-                rangeDot[0].value = minValue;
-                if (minValue > rangeDot[0].min) {
-                    range.style.left = (minValue / rangeDot[0].max) * 100 + "%";
-                }
-            } else {
-                rangeDot[1].value = maxValue;
-                range.style.right = 100 - (maxValue / rangeDot[1].max) * 100 + "%";
-            }
-        }
-
-        if(minValue === "") {
-            range.style.left = (rangeDot[0].min + rangeDot[0].max) / 2 * 100 + "%";
-
-        }
-        if(maxValue === "") {
-            range.style.right = (rangeDot[0].min + rangeDot[0].max) / 2 * 100 + "%";
-        }
-    });
-});
+    }
+}

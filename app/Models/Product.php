@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static filter(mixed $filter)
+ */
 class Product extends Model
 {
     use Filterable;

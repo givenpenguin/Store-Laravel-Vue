@@ -11,7 +11,7 @@ export default {
     data() {
         return {
             product: 0,
-            selected: undefined,
+            selected: null,
             isLoaded: false,
         }
     },
