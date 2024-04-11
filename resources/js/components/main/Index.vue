@@ -6,10 +6,9 @@ import {activeMenu, toggleMenu} from "../../../../public/assets/js/menu.js";
 
 export default {
     name:"Index",
-    async mounted() {
+    mounted() {
         $(document).trigger('change')
-        await this.getData()
-        this.originalProducts = [...this.products]
+        this.getData()
     },
     data() {
         return {
@@ -44,7 +43,6 @@ export default {
             this.isLoaded = true
         },
         async getProducts(page = 1) {
-            console.log(this.title)
             const {data} = await axios
                 .post('http://127.0.0.1:8888/api/admin/products', {
                     'title': this.title,
@@ -55,6 +53,7 @@ export default {
                 })
             this.products = data.data
             this.pagination = data.meta
+            this.originalProducts = [...this.products]
         },
         async getFilterList() {
             const {data} = await axios
@@ -163,9 +162,9 @@ export default {
                                                         <input class="slider__dot" type="range" ref="rangeMax" @input="updateSliderRange" :min="pricesList.min" :max="pricesList.max" v-model="prices[1]" step="100">
                                                     </div>
                                                     <div class="slider__price">
-                                                        <input class="slider__value slider-min" type="number" ref="priceMin" name="min" @input="updateSliderPrice" v-model="prices[0]">
+                                                        <input class="slider__value slider-min" type="number" ref="priceMin" name="min" @input="updateSliderPrice" :placeholder="pricesList.min">
                                                         <span class="slider__separator">&ndash;</span>
-                                                        <input class="slider__value slider-max" type="number" ref="priceMax" name="max" @input="updateSliderPrice" v-model="prices[1]">
+                                                        <input class="slider__value slider-max" type="number" ref="priceMax" name="max" @input="updateSliderPrice" :placeholder="pricesList.max">
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,7 +197,7 @@ export default {
                                     </select>
                                 </div>
                             </div>
-                            <div class="products__body">
+                            <div class="products__body" v-if="products.length !== 0">
                                 <div v-for="product in products" class="products__column">
                                     <div class="products__item-product item-product">
                                         <router-link :to="{name: 'product', params: {id: product.id}}" class="item-product__link">
@@ -244,6 +243,13 @@ export default {
                                             </a>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div class="products__message message" :class="{active:products.length === 0}">
+                                <div class="message__content">
+                                    <div class="message__column">
+                                        <div class="message__text">Товары не найдены</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

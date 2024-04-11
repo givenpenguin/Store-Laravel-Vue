@@ -8,8 +8,8 @@ export function updateSliderRange() {
     let minRangeValue = this.$refs.priceMin
     let maxRangeValue = this.$refs.priceMax
 
-    let minDot = minRangeDot.value
-    let maxDot = maxRangeDot.value
+    let minDot = parseInt(minRangeDot.value)
+    let maxDot = parseInt(maxRangeDot.value)
 
     if(event.target === minRangeDot) {
         minRangeDot.style.zIndex = '1';
@@ -29,8 +29,8 @@ export function updateSliderRange() {
         minRangeValue.value = minDot;
         maxRangeValue.value = maxDot;
 
-        range.style.left = ((minDot - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
-        range.style.right = 100 - ((maxDot - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
+        range.style.left = ((minDot - this.pricesList.min) / (minRangeDot.max - this.pricesList.min)) * 100 + "%";
+        range.style.right = 100 - ((maxDot - this.pricesList.min) / (maxRangeDot.max - this.pricesList.min)) * 100 + "%";
     }
 }
 
@@ -44,16 +44,20 @@ export function updateSliderPrice() {
     let minRangeValue = this.$refs.priceMin
     let maxRangeValue = this.$refs.priceMax
 
-    let minValue = minRangeValue.value
-    let maxValue = maxRangeValue.value
+    let minValue = parseInt(minRangeValue.value)
+    let maxValue = parseInt(maxRangeValue.value)
 
     if (maxValue - minValue >= rangeMin) {
         if (event.target === minRangeValue) {
             minRangeDot.value = minValue;
-            range.style.left = ((minRangeDot.value - this.prices[0]) / (minRangeDot.max - this.prices[0])) * 100 + "%";
+            this.prices[0] = minValue;
+
+            range.style.left = ((minRangeDot.value - this.pricesList.min) / (minRangeDot.max - this.pricesList.min)) * 100 + "%";
         } else {
             maxRangeDot.value = maxValue;
-            range.style.right = 100 - ((maxRangeDot.value - this.prices[0]) / (maxRangeDot.max - this.prices[0])) * 100 + "%";
+            this.prices[1] = maxValue;
+
+            range.style.right = 100 - ((maxRangeDot.value -this.pricesList.min) / (maxRangeDot.max - this.pricesList.min)) * 100 + "%";
         }
     }
 }

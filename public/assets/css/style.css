@@ -1382,6 +1382,7 @@ label, .filter__title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 300px;
   }
   .sidebar__content {
     height: 100%;
@@ -1428,6 +1429,7 @@ label, .filter__title {
   height: 20px;
   cursor: pointer;
   transition: 0.4s;
+  max-width: 292px;
 }
 .filter__header-block.active {
   margin: 0px 0px 12px 0px;
@@ -1449,6 +1451,9 @@ label, .filter__title {
   font-weight: 650;
 }
 @media (max-width: 900px) {
+  .filter__header-block.active {
+    margin: 0px 0px 17px 0px;
+  }
   .filter__title {
     font-size: 21px;
   }
@@ -1654,4 +1659,18 @@ label, .filter__title {
 .pagination__link.active {
   background-color: #000000;
   color: #FFFFFF;
+}
+
+.message {
+  display: none;
+}
+.message__text {
+  font-size: 17px;
+  color: #797979;
+}
+.message.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
 }/*# sourceMappingURL=style.css.map */
