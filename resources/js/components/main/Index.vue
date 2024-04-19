@@ -14,6 +14,7 @@ export default {
         return {
             hover: false,
             isLoaded: false,
+            isSidebarOn: false,
             selectedFilters: [],
 
             products: [],
@@ -86,7 +87,7 @@ export default {
                 <div class="content__body">
                     <div class="content__sidebar sidebar">
                         <div class="sidebar__arrows">
-                            <div class="sidebar__arrow arrow-right">
+                            <div class="sidebar__arrow arrow-right" @click="isSidebarOn = true">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 18L15 12L9 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
@@ -94,12 +95,12 @@ export default {
                                 </svg>
                             </div>
                         </div>
-                        <div class="sidebar__content">
+                        <div class="sidebar__content" :class="{active:isSidebarOn}">
                             <div class="sidebar__container">
                                 <form class="sidebar__body">
                                     <div class="sidebar__header-block header-block">
                                         <h2 class="header-block__title">Фильтрация</h2>
-                                        <div class="header-block__cancel _button-svg">
+                                        <div class="header-block__cancel _button-svg" @click="isSidebarOn = false">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -228,9 +229,9 @@ export default {
                                             <template v-if="Number(link.label) &&
                                                 (pagination.current_page - link.label < 2 && link.label - pagination.current_page < 2) ||
                                                 Number(link.label) === 1 || Number(link.label) === pagination.last_page">
-                                            <li class="pagination__button">
-                                                <a @click.prevent="getProducts(link.label)" :class="link.active ? 'active' : ''" href="#" class="pagination__link _button-svg">{{ link.label }}</a>
-                                            </li>
+                                                <li class="pagination__button">
+                                                    <a @click.prevent="getProducts(link.label)" :class={active:link.active} href="#" class="pagination__link _button-svg">{{ link.label }}</a>
+                                                </li>
                                             </template>
                                         </template>
                                         <li class="pagination__button">

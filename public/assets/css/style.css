@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   padding: 0;
   margin: 0;
@@ -204,7 +205,7 @@ h1, h2, h3, h4, h5, h6 {
 /*------------------------------------*/
 .drawer {
   position: fixed;
-  width: 420px;
+  width: 480px;
   height: 100%;
   right: 0;
   top: 0;
@@ -246,9 +247,6 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0px 0px 20px 0px;
 }
 @media (max-width: 900px) {
-  .drawer {
-    width: 520px;
-  }
   .drawer__header-block {
     min-height: 70px;
   }
@@ -299,15 +297,25 @@ h1, h2, h3, h4, h5, h6 {
 .item-cart__info {
   padding: 10px 0px 0px 0px;
 }
-@media (max-width: 400px) {
+.item-cart__controls {
+  display: flex;
+  justify-content: space-between;
+}
+.item-cart__quantity {
+  margin: 0px 40px 0px 0px;
+}
+@media (max-width: 500px) {
   .item-cart {
     flex-direction: column;
   }
-  .item-cart__remove {
+  .item-cart__quantity {
+    margin: 0px 30px 0px 0px;
+  }
+  .item-cart__controls {
     margin: 15px 0px 0px 0px;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .item-cart__image {
     width: 120px;
     height: 120px;
@@ -342,15 +350,6 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 900px) {
   .amount-block-drawer {
     padding: 20px 0px 0px 0px;
-  }
-}
-@media (max-width: 900px) {
-  .amount-block-drawer__total {
-    font-size: 27px;
-  }
-  .amount-block-drawer__button {
-    height: 60px;
-    font-size: 22px;
   }
 }
 
@@ -395,6 +394,15 @@ h1, h2, h3, h4, h5, h6 {
   .footer__socials {
     margin: 30px 0px 0px 0px;
   }
+}
+
+.quantity {
+  display: flex;
+  flex-direction: row;
+}
+.quantity__value {
+  width: 50px;
+  text-align: center;
 }
 
 .slider__range {
@@ -539,22 +547,13 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
   }
   .column__image {
-    width: 100%;
-    padding: 0 0 100% 0;
+    width: 50%;
+    padding: 0 0 50% 0;
   }
   .column__product {
     font-size: 22px;
     margin: 15px 0px 0px 0px;
   }
-}
-
-.quantity {
-  display: flex;
-  flex-direction: row;
-}
-.quantity__value {
-  width: 60px;
-  text-align: center;
 }
 
 /*-------------------------------------------*/
@@ -783,6 +782,7 @@ h1, h2, h3, h4, h5, h6 {
 .images__body {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 @media (max-width: 1000px) {
   .images__body {
@@ -821,6 +821,7 @@ h1, h2, h3, h4, h5, h6 {
   }
   .gallery__image, .gallery__image-active {
     padding: 0 0 25% 0;
+    width: 25%;
   }
   .gallery__image:not(:last-child), .gallery__image-active:not(:last-child) {
     margin: 0px 10px 0px 0px;
@@ -830,7 +831,7 @@ h1, h2, h3, h4, h5, h6 {
 .carousel {
   position: relative;
   margin: 0 20px 0 0;
-  width: 100%;
+  width: 85%;
 }
 .carousel__button {
   position: absolute;
@@ -855,6 +856,11 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 1000px) {
   .carousel {
     margin: 0;
+  }
+}
+@media (max-width: 700px) {
+  .carousel {
+    width: 100%;
   }
 }
 
@@ -891,7 +897,7 @@ h1, h2, h3, h4, h5, h6 {
 .details__cart-button {
   text-transform: uppercase;
   margin: 10px 0;
-  padding: 10px 30px;
+  padding: 10px 10px;
   height: 40px;
   width: 160px;
   border-radius: 12px;
@@ -900,10 +906,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   color: #FFFFFF;
 }
+.details__cart-button:before {
+  content: "В корзину";
+}
 .details__cart-button.disabled {
   pointer-events: none;
   background: #9e9e9e;
   color: #e6e6e6;
+}
+.details__cart-button.disabled:before {
+  content: "В корзине";
 }
 .details__description {
   margin: 30px 0px 0px 0px;

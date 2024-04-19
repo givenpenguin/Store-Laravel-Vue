@@ -1,28 +1,51 @@
 <script>
 
+import axios from "axios";
+
 export default {
     name: 'App',
-    mounted() {
+    async mounted() {
         $(document).trigger('change')
+        this.getProductQty()
     },
 
     data() {
         return {
             currentPage: '',
-            isOn: false,
+            isMenuOn: false,
+            isDrawerOn: false,
+
+            productsInCart: [],
+            productsQty: 0,
         }
     },
 
     methods: {
         toggleBurger() {
-            this.isOn = !this.isOn;
+            this.isMenuOn = !this.isMenuOn
+        },
+        getProductQty() {
+            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+
+            if(this.productsInCart) {
+                this.productsInCart.forEach(item => {
+                    this.productsQty += item.quantity
+                })
+            }
+        },
+        removeProductFromCart(product) {
+            const indexToRemove = this.productsInCart.indexOf(product)
+
+            this.productsInCart.splice(indexToRemove, 1)
+
+            localStorage.setItem('cart', JSON.stringify(this.productsInCart))
         },
     },
 
     created() {
-        this.currentPage = this.$route.name;
+        this.currentPage = this.$route.name
         this.$router.afterEach((to, from) => {
-            this.currentPage = to.name;
+            this.currentPage = to.name
         });
     }
 }
@@ -59,7 +82,7 @@ export default {
                         <ul class="menu__list">
                             <li class="menu__item">
                                 <div class="menu__link link">
-                                    <div class="link__button cart-button">
+                                    <div class="link__button cart-button" @click="isDrawerOn = true">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -75,7 +98,7 @@ export default {
                                                 stroke="black" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
                                         </svg>
-                                        <span class="cart-button__counter">0</span>
+                                        <span class="cart-button__counter">{{ productsQty }}</span>
                                     </div>
                                 </div>
                             </li>
@@ -102,7 +125,7 @@ export default {
                             </li>
                             <li class="menu__item">
                                 <div class="menu__link link">
-                                    <div :class="isOn ? 'active' : ''" @click="toggleBurger" class="link__button burger-menu">
+                                    <div :class="isMenuOn ? 'active' : ''" @click="toggleBurger" class="link__button burger-menu">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1 6H23" stroke="black" stroke-width="2" stroke-linecap="round"
@@ -121,12 +144,12 @@ export default {
                     </nav>
                 </div>
             </div>
-            <div class="header__drawer drawer">
+            <div class="header__drawer drawer" :class="{active:isDrawerOn}">
                 <div class="drawer__container">
                     <div class="drawer__body">
                         <div class="drawer__header-block header-block">
                             <h2 class="header-block__title">Корзина</h2>
-                            <div class="header-block__cancel _button-svg">
+                            <div class="header-block__cancel _button-svg" @click="isDrawerOn = false">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
@@ -137,32 +160,53 @@ export default {
                             </div>
                         </div>
                         <div class="drawer__items">
-                            <div class="drawer__column">
-                                <div class="drawer__item-cart item-cart">
-<!--                                    <router-link :to="{name: 'product', params: {id: product.id}}" class="item-cart__link">-->
-                                        <div class="item-cart__wrapper">
-                                            <div class="item-cart__image _ibg">
-                                                <img src="assets/images/photos/bomber1.png" alt="bomber">
+                            <template v-for="product in productsInCart">
+                                <div class="drawer__column">
+                                    <div class="drawer__item-cart item-cart">
+                                        <router-link :to="{name: 'product', params: {id: product.id}}" class="item-cart__link">
+                                            <div class="item-cart__wrapper">
+                                                <div class="item-cart__image _ibg">
+                                                    <img :src="product.image" :alt="product.title">
+                                                </div>
+                                                <div class="item-cart__content">
+                                                    <h3 class="item-cart__title">{{ product.title }}</h3>
+                                                    <p class="item-cart__info">
+                                                        <span class="item-cart__size">Размер: {{ product.size }}</span>
+                                                    </p>
+                                                    <p class="item-cart__info">
+                                                        <span class="item-cart__price">Цена: {{ product.price }} Р.</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="item-cart__content">
-                                                <h3 class="item-cart__title">Bomber</h3>
-                                                <p class="item-cart__info">
-                                                    <span class="item-cart__price">6200 р.</span>
-                                                </p>
+                                        </router-link>
+                                        <div class="item-cart__controls">
+                                            <div class="item-cart__quantity quantity">
+                                                <button class="quantity__button decrease-button _button-svg" type="button">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </button>
+                                                <input class="quantity__value" :value="product.quantity" type="number">
+                                                <button class="quantity__button increase-button _button-svg" type="button">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M12 5V19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </button>
                                             </div>
+                                            <button class="item-cart__remove _button-svg" @click.prevent="removeProductFromCart(product)">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2"
+                                                          stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2"
+                                                          stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
                                         </div>
-<!--                                    </router-link>-->
-                                    <div class="item-cart__remove _button-svg">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2"
-                                                  stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2"
-                                                  stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
                                     </div>
                                 </div>
-                            </div>
+                            </template>
                         </div>
                         <div class="drawer__amount-block amount-block-drawer">
                             <div class="amount-block-drawer__total">
@@ -177,8 +221,9 @@ export default {
         </header>
 
         <main class="main">
-            <div class="main__closer"></div>
-            <div :class="isOn ? 'active' : ''" class="main__tab tab-main">
+            <div class="main__closer" @click="isDrawerOn = false"></div>
+
+            <div :class="isMenuOn ? 'active' : ''" class="main__tab tab-main">
                 <div class="tab-main__container _container">
                     <div class="tab-main__body">
                         <nav class="tab-main__content">
@@ -220,6 +265,7 @@ export default {
                     </div>
                 </div>
             </div>
+
             <router-view></router-view>
         </main>
 

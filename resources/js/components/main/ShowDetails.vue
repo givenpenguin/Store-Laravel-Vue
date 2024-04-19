@@ -3,16 +3,27 @@ import axios from "axios";
 
 export default {
     name:"ShowDetails",
-    mounted() {
+    async mounted() {
         $(document).trigger('change')
-        this.getProduct()
+        await this.getProduct()
+        this.setUrlImages()
+        this.checkCart()
+        this.setDefaultSize()
     },
 
     data() {
         return {
-            product: 0,
-            selected: null,
+            product: null,
             isLoaded: false,
+            onCart: false,
+            idSelectedSize: null,
+            titleSelectedSize: null,
+
+            images: {
+                url: [],
+                current_image: [],
+            },
+            productsInCart: [],
         }
     },
 
@@ -22,27 +33,87 @@ export default {
                 .get(`http://127.0.0.1:8888/api/admin/products/${this.$route.params.id}`)
             this.product = data.data
             this.isLoaded = true;
-        }
+        },
+        setUrlImages() {
+            this.images.url.push(this.product.image_url)
+            this.product.product_images.forEach((e) => {
+                this.images.url.push(e.url)
+            })
+            this.images.current_image = 0
+        },
+        addToCart() {
+            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+            let newProduct = [
+                {
+                    'id': this.product.id,
+                    'image': this.product.image_url,
+                    'title': this.product.title,
+                    'price': this.product.price,
+                    'size': this.titleSelectedSize,
+                    'quantity': 1
+                }
+            ]
+
+            if (!this.productsInCart) {
+                localStorage.setItem('cart', JSON.stringify(newProduct))
+            } else {
+                this.productsInCart.forEach(item => {
+                    if (item.id === this.product.id) {
+                        item.quantity += 1
+                        newProduct = null
+                    }
+                })
+
+                Array.prototype.push.apply(this.productsInCart, newProduct)
+                localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+            }
+            this.onCart = true;
+        },
+        checkCart() {
+            let cart = localStorage.getItem('cart');
+
+            if(cart) {
+                cart = JSON.parse(cart)
+                cart.forEach(item => {
+                    if (item.id === parseInt(this.$route.params.id)) {
+                        this.onCart = true;
+                    }
+                })
+            }
+        },
+        setDefaultSize() {
+            this.idSelectedSize = this.product.sizes[0].id
+            this.titleSelectedSize = this.product.sizes[0].title
+        },
+        setCurrentImage(image) {
+            this.images.current_image = this.images.url.indexOf(image)
+        },
+        getNextImage() {
+            this.images.current_image < this.images.url.length - 1 ? this.images.current_image += 1 : this.images.current_image = 0
+        },
+        getPreviousImage() {
+            this.images.current_image > 0 ? this.images.current_image -= 1 : this.images.current_image = this.images.url.length - 1
+        },
     }
 }
 </script>
 
 <template>
-<!--    <div v-if="isLoaded">-->
+    <div v-if="isLoaded">
             <div class="main__product-info product-info">
                 <div class="product-info__container _container">
                     <div class="product-info__images images">
                         <div class="images__body">
                             <div class="images__gallery gallery">
-                                <div class="gallery__image active _ibg">
-                                    <img :src="product.image_url" :alt="product.title">
-                                </div>
-                                <div v-for="image in product.product_images" class="gallery__image _ibg">
-                                    <img :src="image.url" :alt="product.title">
-                                </div>
+                                <template v-for="image in images.url">
+                                    <div class="gallery__image _ibg" :class="{active:image === images.url[images.current_image]}"
+                                         @click.prevent="setCurrentImage(image)">
+                                        <img :src="image" :alt="product.title">
+                                    </div>
+                                </template>
                             </div>
                             <div class="images__carousel carousel">
-                                <button class="carousel__button _arrow-prev" type="button">
+                                <button class="carousel__button _arrow-prev" type="button" @click.prevent="getPreviousImage">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2"
@@ -50,14 +121,13 @@ export default {
                                     </svg>
                                 </button>
                                 <div class="carousel__main-images main-images">
-                                    <div class="main-images__image active _ibg">
-                                        <img :src="product.image_url" :alt="product.title">
-                                    </div>
-                                    <div v-for="image in product.product_images" class="main-images__image _ibg">
-                                        <img :src="image.url" :alt="product.title">
-                                    </div>
+                                    <template v-for="image in images.url">
+                                        <div class="main-images__image _ibg" :class="{active:image === images.url[images.current_image]}">
+                                            <img :src="image" :alt="product.title">
+                                        </div>
+                                    </template>
                                 </div>
-                                <button class="carousel__button _arrow-next" type="button">
+                                <button class="carousel__button _arrow-next" type="button" @click.prevent="getNextImage">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 18L15 12L9 6" stroke="black" stroke-width="2" stroke-linecap="round"
@@ -82,11 +152,11 @@ export default {
                                     <span class="size-block__title">Размер:</span>
                                     <ul class="size-block__list">
                                         <li v-for="size in product.sizes" class="size-block__button-wrapper">
-                                            <button :class="{active:size.id === selected}" @click="selected = size.id" class="size-block__button" type="button">{{ size.title }}</button>
+                                            <button :class="{active:size.id === idSelectedSize}" @click="idSelectedSize=size.id; size=size.title " class="size-block__button" type="button">{{ size.title }}</button>
                                         </li>
                                     </ul>
                                 </div>
-                                <button class="details__cart-button _button" type="submit">В корзину</button>
+                                <button class="details__cart-button _button" type="submit" @click="addToCart()" :class="{disabled:onCart}"></button>
                             </div>
                             <div class="details__description">
                                 <p>{{ product.description }}</p>
@@ -95,10 +165,10 @@ export default {
                     </div>
                 </div>
             </div>
-<!--    </div>-->
-<!--    <div v-else class="main__preloader preloader">-->
-<!--        <div class="preloader__spinner"></div>-->
-<!--    </div>-->
+    </div>
+    <div v-else class="main__preloader preloader">
+        <div class="preloader__spinner"></div>
+    </div>
 </template>
 
 <style>
