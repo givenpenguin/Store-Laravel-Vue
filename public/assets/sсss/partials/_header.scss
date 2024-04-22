@@ -233,6 +233,10 @@
 
 	&__items {
 		flex: 1 1 auto;
+
+		&.disable {
+			display: none;
+		}
 	}
 	
 	&__column {
@@ -396,7 +400,24 @@
 		color: #ffffff;
 	}
 
+	&.disable {
+		display: none;
+	}
+
 	@media (max-width: 900px) {
 		padding: 20px 0px 0px 0px;
+	}
+}
+
+.drawer {
+
+	&__message {
+
+	}
+}
+.drawer-message {
+
+	&__content {
+		top: 45%;
 	}
 }

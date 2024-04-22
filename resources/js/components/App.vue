@@ -2,7 +2,7 @@
 
 export default {
     name: 'App',
-    async mounted() {
+    mounted() {
         $(document).trigger('change')
         this.getProductsInCart()
     },
@@ -220,12 +220,19 @@ export default {
                                 </div>
                             </template>
                         </div>
-                        <div class="drawer__amount-block amount-block-drawer">
+                        <div class="drawer__amount-block amount-block-drawer" :class="{disable:productsInCart.length === 0}">
                             <div class="amount-block-drawer__total">
                                 <span class="amount-block-drawer__text">Итого:</span>
                                 <span class="amount-block-drawer__amount">{{ productsAmount }} р.</span>
                             </div>
                             <router-link :to="{name: 'cart'}" @click="isDrawerOn = false" class="amount-block-drawer__button _button">Оформить заказ</router-link>
+                        </div>
+                        <div class="drawer__message message" :class="{active:productsInCart.length === 0}">
+                            <div class="message__content drawer-message__content">
+                                <div class="message__column">
+                                    <div class="message__text">Корзина пуста</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

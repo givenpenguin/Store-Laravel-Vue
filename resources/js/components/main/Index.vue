@@ -245,10 +245,10 @@ export default {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="products__message message" :class="{active:products.length === 0}">
-                                <div class="message__content">
-                                    <div class="message__column">
-                                        <div class="message__text">Товары не найдены</div>
+                            <div class="products__products-message products-message" :class="{active:products.length === 0}">
+                                <div class="products-message__content">
+                                    <div class="products-message__column">
+                                        <div class="products-message__text">Товары не найдены</div>
                                     </div>
                                 </div>
                             </div>
