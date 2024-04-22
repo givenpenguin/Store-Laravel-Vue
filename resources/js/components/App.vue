@@ -1,12 +1,17 @@
 <script>
 
-import axios from "axios";
-
 export default {
     name: 'App',
     async mounted() {
         $(document).trigger('change')
-        this.getProductQty()
+        this.getProductsInCart()
+    },
+
+    created() {
+        this.currentPage = this.$route.name
+        this.$router.afterEach((to, from) => {
+            this.currentPage = to.name
+        });
     },
 
     data() {
@@ -17,6 +22,7 @@ export default {
 
             productsInCart: [],
             productsQty: 0,
+            productsAmount: 0,
         }
     },
 
@@ -24,12 +30,13 @@ export default {
         toggleBurger() {
             this.isMenuOn = !this.isMenuOn
         },
-        getProductQty() {
+        getProductsInCart() {
             this.productsInCart = JSON.parse(localStorage.getItem('cart'))
 
             if(this.productsInCart) {
                 this.productsInCart.forEach(item => {
                     this.productsQty += item.quantity
+                    this.productsAmount += item.price * item.quantity
                 })
             }
         },
@@ -40,14 +47,19 @@ export default {
 
             localStorage.setItem('cart', JSON.stringify(this.productsInCart))
         },
+        refreshProductDetails(id){
+            if(this.currentPage === 'product') {
+                this.$router.push({ name: 'home' }).then(() => {
+                    this.$router.push({ name: 'product', params: { id: id } })
+                })
+            }
+        },
+        handleAddToCart() {
+            this.getProductsInCart()
+            this.isDrawerOn = true
+            console.log('Кнопка нажата')
+        }
     },
-
-    created() {
-        this.currentPage = this.$route.name
-        this.$router.afterEach((to, from) => {
-            this.currentPage = to.name
-        });
-    }
 }
 </script>
 
@@ -163,7 +175,7 @@ export default {
                             <template v-for="product in productsInCart">
                                 <div class="drawer__column">
                                     <div class="drawer__item-cart item-cart">
-                                        <router-link :to="{name: 'product', params: {id: product.id}}" class="item-cart__link">
+                                        <router-link :to="{name: 'product', params: {id: product.id}}" @click="isDrawerOn = false; refreshProductDetails(product.id)" class="item-cart__link">
                                             <div class="item-cart__wrapper">
                                                 <div class="item-cart__image _ibg">
                                                     <img :src="product.image" :alt="product.title">
@@ -174,7 +186,7 @@ export default {
                                                         <span class="item-cart__size">Размер: {{ product.size }}</span>
                                                     </p>
                                                     <p class="item-cart__info">
-                                                        <span class="item-cart__price">Цена: {{ product.price }} Р.</span>
+                                                        <span class="item-cart__price">Цена: {{ product.price }} р.</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -211,9 +223,9 @@ export default {
                         <div class="drawer__amount-block amount-block-drawer">
                             <div class="amount-block-drawer__total">
                                 <span class="amount-block-drawer__text">Итого:</span>
-                                <span class="amount-block-drawer__amount">12400 р.</span>
+                                <span class="amount-block-drawer__amount">{{ productsAmount }} р.</span>
                             </div>
-                            <a href="cart.html" class="amount-block-drawer__button _button">Оформить заказ</a>
+                            <router-link :to="{name: 'cart'}" @click="isDrawerOn = false" class="amount-block-drawer__button _button">Оформить заказ</router-link>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <script>
 export default {
-    name:"Cart",
+    name: 'Cart',
     mounted() {
         $(document).trigger('change')
     },
@@ -12,7 +12,7 @@ export default {
     },
 
     methods: {
-        getCart
+
     }
 }
 </script>
@@ -58,7 +58,7 @@ export default {
                                               stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </button>
-                                <input class="quantity__value" value="1" type="number"></input>
+                                <input class="quantity__value" value="1" type="number">
                                 <button class="quantity__button increase-button _button-svg" type="button">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">

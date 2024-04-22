@@ -205,7 +205,7 @@ h1, h2, h3, h4, h5, h6 {
 /*------------------------------------*/
 .drawer {
   position: fixed;
-  width: 480px;
+  width: 500px;
   height: 100%;
   right: 0;
   top: 0;
@@ -285,16 +285,17 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   width: 100px;
   height: 100px;
+  margin: 0px 15px 0px 0px;
 }
 .item-cart__content {
-  padding: 0px 0px 0px 15px;
   color: #000000;
 }
 .item-cart__title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 .item-cart__info {
+  font-size: 14px;
   padding: 10px 0px 0px 0px;
 }
 .item-cart__controls {
@@ -304,9 +305,12 @@ h1, h2, h3, h4, h5, h6 {
 .item-cart__quantity {
   margin: 0px 40px 0px 0px;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .item-cart {
     flex-direction: column;
+  }
+  .item-cart__wrapper {
+    justify-content: center;
   }
   .item-cart__quantity {
     margin: 0px 30px 0px 0px;
@@ -321,7 +325,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 120px;
   }
   .item-cart__title {
-    font-size: 21px;
+    font-size: 18px;
   }
   .item-cart__info {
     font-size: 16px;
@@ -909,13 +913,21 @@ h1, h2, h3, h4, h5, h6 {
 .details__cart-button:before {
   content: "В корзину";
 }
-.details__cart-button.disabled {
+.details__cart-button.in-cart {
   pointer-events: none;
   background: #9e9e9e;
   color: #e6e6e6;
 }
-.details__cart-button.disabled:before {
-  content: "В корзине";
+.details__cart-button.in-cart:before {
+  content: "Уже в корзине";
+}
+.details__cart-button.out-of-stock {
+  pointer-events: none;
+  background: #9e9e9e;
+  color: #e6e6e6;
+}
+.details__cart-button.out-of-stock:before {
+  content: "Нет в наличии";
 }
 .details__description {
   margin: 30px 0px 0px 0px;

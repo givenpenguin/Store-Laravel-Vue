@@ -194,7 +194,7 @@
 }
 .drawer {
 	position: fixed;
-    width: 480px;
+    width: 500px;
 	height: 100%;
     right: 0;
     top: 0;
@@ -288,20 +288,25 @@
 		display: block;
 		width: 100px;
 		height: 100px;
+		margin: 0px 15px 0px 0px;
 	}
 
 	&__content {
-		padding: 0px 0px 0px 15px;
 		color: #000000;
 	}
 
 	&__title {
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 600;
 	}
 
 	&__info {
+		font-size: 14px;
 		padding: 10px 0px 0px 0px;
+	}
+
+	&__size {
+
 	}
 
 	&__price {
@@ -321,8 +326,12 @@
 
 	}
 
-	@media (max-width: 500px) {
+	@media (max-width: 550px) {
 		flex-direction: column;
+
+		&__wrapper {
+			justify-content: center;
+		}
 
 		&__quantity {
 			margin: 0px 30px 0px 0px;
@@ -340,7 +349,7 @@
 		}
 
 		&__title {
-			font-size: 21px;
+			font-size: 18px;
 		}
 
 		&__info {

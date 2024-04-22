@@ -1,11 +1,10 @@
 <script>
 import axios from "axios";
-import {watch} from "vue";
 import {updateSliderPrice, updateSliderRange} from "../../../../public/assets/js/price-slider.js";
 import {activeMenu, toggleMenu} from "../../../../public/assets/js/menu.js";
 
 export default {
-    name:"Index",
+    name: 'Index',
     mounted() {
         $(document).trigger('change')
         this.getData()

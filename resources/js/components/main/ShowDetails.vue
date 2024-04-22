@@ -1,13 +1,12 @@
 <script>
-import axios from "axios";
+import axios from "axios"
 
 export default {
-    name:"ShowDetails",
+    name: 'ShowDetails',
     async mounted() {
         $(document).trigger('change')
         await this.getProduct()
         this.setUrlImages()
-        this.checkCart()
         this.setDefaultSize()
     },
 
@@ -58,7 +57,7 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(newProduct))
             } else {
                 this.productsInCart.forEach(item => {
-                    if (item.id === this.product.id) {
+                    if (item.id === this.product.id && item.size === this.titleSelectedSize) {
                         item.quantity += 1
                         newProduct = null
                     }
@@ -68,18 +67,6 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(this.productsInCart))
             }
             this.onCart = true;
-        },
-        checkCart() {
-            let cart = localStorage.getItem('cart');
-
-            if(cart) {
-                cart = JSON.parse(cart)
-                cart.forEach(item => {
-                    if (item.id === parseInt(this.$route.params.id)) {
-                        this.onCart = true;
-                    }
-                })
-            }
         },
         setDefaultSize() {
             this.idSelectedSize = this.product.sizes[0].id
@@ -152,11 +139,11 @@ export default {
                                     <span class="size-block__title">Размер:</span>
                                     <ul class="size-block__list">
                                         <li v-for="size in product.sizes" class="size-block__button-wrapper">
-                                            <button :class="{active:size.id === idSelectedSize}" @click="idSelectedSize=size.id; size=size.title " class="size-block__button" type="button">{{ size.title }}</button>
+                                            <button :class="{active:size.id === idSelectedSize}" @click="idSelectedSize=size.id; titleSelectedSize=size.title " class="size-block__button" type="button">{{ size.title }}</button>
                                         </li>
                                     </ul>
                                 </div>
-                                <button class="details__cart-button _button" type="submit" @click="addToCart()" :class="{disabled:onCart}"></button>
+                                <button class="details__cart-button _button" type="submit" @click="addToCart"></button>
                             </div>
                             <div class="details__description">
                                 <p>{{ product.description }}</p>
