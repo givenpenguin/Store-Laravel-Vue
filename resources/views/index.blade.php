@@ -17,8 +17,5 @@
     <div id="app">
         <app></app>
     </div>
-
-    <script src="{{ asset('assets/js/jquery.v3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 </html>

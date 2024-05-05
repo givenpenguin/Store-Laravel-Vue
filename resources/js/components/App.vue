@@ -3,8 +3,8 @@
 export default {
     name: 'App',
     mounted() {
-        $(document).trigger('change')
         this.getProductsInCart()
+        this.$store.commit('counterValue', { counter: this.productsQty })
     },
 
     created() {
@@ -18,7 +18,6 @@ export default {
         return {
             currentPage: '',
             isMenuOn: false,
-            isDrawerOn: false,
 
             productsInCart: [],
             productsQty: 0,
@@ -26,12 +25,32 @@ export default {
         }
     },
 
+    computed: {
+        stateDrawer() {
+            this.getProductsInCart()
+            return this.$store.state.isDrawerOpen
+        },
+        stateSidebar() {
+            return this.$store.state.isSidebarOpen
+        },
+        stateCounter() {
+            return this.$store.state.counter
+        }
+    },
+
     methods: {
         toggleBurger() {
             this.isMenuOn = !this.isMenuOn
         },
-        getProductsInCart() {
-            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+        toggleDrawer(state) {
+            this.$store.commit('toggleDrawer', { isDrawerOpen: state })
+        },
+        toggleSidebar(state) {
+            this.$store.commit('toggleSidebar', { isSidebarOpen: state })
+        },
+        getActualDataInCart() {
+            this.productsQty = 0
+            this.productsAmount = 0
 
             if(this.productsInCart) {
                 this.productsInCart.forEach(item => {
@@ -40,12 +59,44 @@ export default {
                 })
             }
         },
+        getProductsInCart() {
+            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+            this.getActualDataInCart()
+        },
+        updateQtyProduct(product, action, event = null) {
+            const productIndex = this.productsInCart.indexOf(product)
+            const currentQty = this.productsInCart[productIndex].quantity
+
+            if (action === 'increase') {
+                currentQty <= 99 ? this.productsInCart[productIndex].quantity += 1 : ''
+            }
+
+            if (action === 'decrease') {
+                currentQty > 1 ? this.productsInCart[productIndex].quantity -= 1 : ''
+            }
+
+            if (action === 'input') {
+                const eventValue = parseInt(event.target.value);
+
+                if (eventValue <= 99 && eventValue >= 1) {
+                    this.productsInCart[productIndex].quantity = eventValue
+                } else {
+                    this.productsInCart[productIndex].quantity = null;
+                    this.productsInCart[productIndex].quantity = currentQty;
+                }
+            }
+            localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+            this.getActualDataInCart()
+            this.$store.commit('counterValue', { counter: this.productsQty })
+        },
         removeProductFromCart(product) {
             const indexToRemove = this.productsInCart.indexOf(product)
 
             this.productsInCart.splice(indexToRemove, 1)
 
             localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+            this.getActualDataInCart()
+            this.$store.commit('counterValue', { counter: this.productsQty })
         },
         refreshProductDetails(id){
             if(this.currentPage === 'product') {
@@ -54,11 +105,6 @@ export default {
                 })
             }
         },
-        handleAddToCart() {
-            this.getProductsInCart()
-            this.isDrawerOn = true
-            console.log('Кнопка нажата')
-        }
     },
 }
 </script>
@@ -94,7 +140,7 @@ export default {
                         <ul class="menu__list">
                             <li class="menu__item">
                                 <div class="menu__link link">
-                                    <div class="link__button cart-button" @click="isDrawerOn = true">
+                                    <div class="link__button cart-button" @click="toggleDrawer(true)">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -110,7 +156,7 @@ export default {
                                                 stroke="black" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
                                         </svg>
-                                        <span class="cart-button__counter">{{ productsQty }}</span>
+                                        <span class="cart-button__counter">{{ stateCounter }}</span>
                                     </div>
                                 </div>
                             </li>
@@ -156,12 +202,12 @@ export default {
                     </nav>
                 </div>
             </div>
-            <div class="header__drawer drawer" :class="{active:isDrawerOn}">
+            <div class="header__drawer drawer" :class="{active:stateDrawer}">
                 <div class="drawer__container">
                     <div class="drawer__body">
                         <div class="drawer__header-block header-block">
                             <h2 class="header-block__title">Корзина</h2>
-                            <div class="header-block__cancel _button-svg" @click="isDrawerOn = false">
+                            <div class="header-block__cancel _button-svg" @click="toggleDrawer(false)">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
@@ -175,7 +221,7 @@ export default {
                             <template v-for="product in productsInCart">
                                 <div class="drawer__column">
                                     <div class="drawer__item-cart item-cart">
-                                        <router-link :to="{name: 'product', params: {id: product.id}}" @click="isDrawerOn = false; refreshProductDetails(product.id)" class="item-cart__link">
+                                        <router-link :to="{name: 'product', params: {id: product.id}}" @click="toggleDrawer(false); refreshProductDetails(product.id)" class="item-cart__link">
                                             <div class="item-cart__wrapper">
                                                 <div class="item-cart__image _ibg">
                                                     <img :src="product.image" :alt="product.title">
@@ -193,13 +239,13 @@ export default {
                                         </router-link>
                                         <div class="item-cart__controls">
                                             <div class="item-cart__quantity quantity">
-                                                <button class="quantity__button decrease-button _button-svg" type="button">
+                                                <button class="quantity__button decrease-button _button-svg" type="button" @click.prevent="updateQtyProduct(product, 'decrease')">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                                     </svg>
                                                 </button>
-                                                <input class="quantity__value" :value="product.quantity" type="number">
-                                                <button class="quantity__button increase-button _button-svg" type="button">
+                                                <input class="quantity__value" :value="product.quantity" @blur="updateQtyProduct(product, 'input', $event)" type="number">
+                                                <button class="quantity__button increase-button _button-svg" type="button" @click.prevent="updateQtyProduct(product, 'increase')">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                                         <path d="M12 5V19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -225,7 +271,7 @@ export default {
                                 <span class="amount-block-drawer__text">Итого:</span>
                                 <span class="amount-block-drawer__amount">{{ productsAmount }} р.</span>
                             </div>
-                            <router-link :to="{name: 'cart'}" @click="isDrawerOn = false" class="amount-block-drawer__button _button">Оформить заказ</router-link>
+                            <router-link :to="{name: 'cart'}" @click="toggleDrawer(false)" class="amount-block-drawer__button _button">Оформить заказ</router-link>
                         </div>
                         <div class="drawer__message message" :class="{active:productsInCart.length === 0}">
                             <div class="message__content drawer-message__content">
@@ -240,7 +286,7 @@ export default {
         </header>
 
         <main class="main">
-            <div class="main__closer" @click="isDrawerOn = false"></div>
+            <div class="main__closer" :class="{active:stateDrawer || stateSidebar}" @click="toggleDrawer(false); toggleSidebar(false)"></div>
 
             <div :class="isMenuOn ? 'active' : ''" class="main__tab tab-main">
                 <div class="tab-main__container _container">

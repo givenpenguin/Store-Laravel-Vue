@@ -4,17 +4,16 @@ import axios from "axios"
 export default {
     name: 'ShowDetails',
     async mounted() {
-        $(document).trigger('change')
         await this.getProduct()
         this.setUrlImages()
         this.setDefaultSize()
+        this.getProductsInCart()
     },
 
     data() {
         return {
             product: null,
             isLoaded: false,
-            onCart: false,
             idSelectedSize: null,
             titleSelectedSize: null,
 
@@ -23,6 +22,7 @@ export default {
                 current_image: [],
             },
             productsInCart: [],
+            productsQty: 0,
         }
     },
 
@@ -32,6 +32,21 @@ export default {
                 .get(`http://127.0.0.1:8888/api/admin/products/${this.$route.params.id}`)
             this.product = data.data
             this.isLoaded = true;
+        },
+        getActualDataInCart() {
+            this.productsQty = 0
+            this.productsAmount = 0
+
+            if(this.productsInCart) {
+                this.productsInCart.forEach(item => {
+                    this.productsQty += item.quantity
+                    this.productsAmount += item.price * item.quantity
+                })
+            }
+        },
+        getProductsInCart() {
+            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+            this.getActualDataInCart()
         },
         setUrlImages() {
             this.images.url.push(this.product.image_url)
@@ -65,8 +80,12 @@ export default {
 
                 Array.prototype.push.apply(this.productsInCart, newProduct)
                 localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+
+                this.$store.commit('toggleDrawer', { isDrawerOpen: true })
+
+                this.getProductsInCart()
+                this.$store.commit('counterValue', { counter: this.productsQty })
             }
-            this.onCart = true;
         },
         setDefaultSize() {
             this.idSelectedSize = this.product.sizes[0].id

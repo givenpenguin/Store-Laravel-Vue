@@ -1,19 +1,17 @@
 <script>
 import axios from "axios";
 import {updateSliderPrice, updateSliderRange} from "../../../../public/assets/js/price-slider.js";
-import {activeMenu, toggleMenu} from "../../../../public/assets/js/menu.js";
 
 export default {
     name: 'Index',
     mounted() {
-        $(document).trigger('change')
         this.getData()
     },
+
     data() {
         return {
             hover: false,
             isLoaded: false,
-            isSidebarOn: false,
             selectedFilters: [],
 
             products: [],
@@ -30,9 +28,14 @@ export default {
             originalProducts: [],
         }
     },
+
+    computed: {
+        stateSidebar() {
+            return this.$store.state.isSidebarOpen
+        },
+    },
+
     methods: {
-        toggleMenu,
-        activeMenu,
         updateSliderRange,
         updateSliderPrice,
 
@@ -74,7 +77,21 @@ export default {
                     this.products = [...this.originalProducts]
                     break;
             }
-        }
+        },
+        toggleMenu(tab) {
+            const index = this.selectedFilters.indexOf(tab);
+            if (index === -1) {
+                this.selectedFilters.push(tab);
+            } else {
+                this.selectedFilters.splice(index, 1);
+            }
+        },
+        activeMenu(tab) {
+            return this.selectedFilters.includes(tab);
+        },
+        toggleSidebar(state) {
+            this.$store.commit('toggleSidebar', { isSidebarOpen: state })
+        },
     }
 }
 </script>
@@ -86,7 +103,7 @@ export default {
                 <div class="content__body">
                     <div class="content__sidebar sidebar">
                         <div class="sidebar__arrows">
-                            <div class="sidebar__arrow arrow-right" @click="isSidebarOn = true">
+                            <div class="sidebar__arrow arrow-right" @click="toggleSidebar(true)">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 18L15 12L9 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
@@ -94,12 +111,12 @@ export default {
                                 </svg>
                             </div>
                         </div>
-                        <div class="sidebar__content" :class="{active:isSidebarOn}">
+                        <div class="sidebar__content" :class="{active:stateSidebar}">
                             <div class="sidebar__container">
                                 <form class="sidebar__body">
                                     <div class="sidebar__header-block header-block">
                                         <h2 class="header-block__title">Фильтрация</h2>
-                                        <div class="header-block__cancel _button-svg" @click="isSidebarOn = false">
+                                        <div class="header-block__cancel _button-svg" @click="toggleSidebar(false)">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M18 6L6 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <path d="M6 6L18 18" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

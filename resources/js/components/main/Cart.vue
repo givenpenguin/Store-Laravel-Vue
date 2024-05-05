@@ -3,7 +3,6 @@
 export default {
     name: 'Cart',
     mounted() {
-        $(document).trigger('change')
         this.getProductsInCart()
     },
 
@@ -19,8 +18,9 @@ export default {
     },
 
     methods: {
-        getProductsInCart() {
-            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+        getActualDataInCart() {
+            this.productsQty = 0
+            this.productsAmount = 0
 
             if(this.productsInCart) {
                 this.productsInCart.forEach(item => {
@@ -29,12 +29,44 @@ export default {
                 })
             }
         },
+        getProductsInCart() {
+            this.productsInCart = JSON.parse(localStorage.getItem('cart'))
+            this.getActualDataInCart()
+        },
+        updateQtyProduct(product, action, event = null) {
+            const productIndex = this.productsInCart.indexOf(product)
+            const currentQty = this.productsInCart[productIndex].quantity
+
+            if (action === 'increase') {
+                currentQty <= 99 ? this.productsInCart[productIndex].quantity += 1 : ''
+            }
+
+            if (action === 'decrease') {
+                currentQty > 1 ? this.productsInCart[productIndex].quantity -= 1 : ''
+            }
+
+            if (action === 'input') {
+                const eventValue = parseInt(event.target.value);
+
+                if (eventValue <= 99 && eventValue >= 1) {
+                    this.productsInCart[productIndex].quantity = eventValue
+                } else {
+                    this.productsInCart[productIndex].quantity = null;
+                    this.productsInCart[productIndex].quantity = currentQty;
+                }
+            }
+            localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+            this.getActualDataInCart()
+            this.$store.commit('counterValue', { counter: this.productsQty })
+        },
         removeProductFromCart(product) {
             const indexToRemove = this.productsInCart.indexOf(product)
 
             this.productsInCart.splice(indexToRemove, 1)
 
             localStorage.setItem('cart', JSON.stringify(this.productsInCart))
+            this.getActualDataInCart()
+            this.$store.commit('counterValue', { counter: this.productsQty })
         },
     }
 }
@@ -80,15 +112,15 @@ export default {
                                     </td>
                                     <td class="table__column column">
                                         <div class="column__quantity quantity">
-                                            <button class="quantity__button decrease-button _button-svg" type="button">
+                                            <button class="quantity__button decrease-button _button-svg" type="button" @click.prevent="updateQtyProduct(product, 'decrease')">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5 12H19" stroke="black" stroke-width="2"
                                                           stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
                                             </button>
-                                            <input class="quantity__value" :value="product.quantity" type="number">
-                                            <button class="quantity__button increase-button _button-svg" type="button">
+                                            <input class="quantity__value" :value="product.quantity" type="number" @blur="updateQtyProduct(product, 'input', $event)">
+                                            <button class="quantity__button increase-button _button-svg" type="button" @click.prevent="updateQtyProduct(product, 'increase')">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5 12H19" stroke="black" stroke-width="2"
@@ -100,7 +132,7 @@ export default {
                                         </div>
                                     </td>
                                     <td class="table__column column">
-                                        <span class="column__subtotal">6200 р.</span>
+                                        <span class="column__subtotal">{{ product.price * product.quantity }} р.</span>
                                     </td>
                                     <td class="table__column column">
                                         <button @click.prevent="removeProductFromCart" class="column__remove _button-svg" type="button">
@@ -272,7 +304,7 @@ export default {
                                     </div>
                                     <div class="total-block__total">
                                         <span class="total-block__text">Итоговая сумма:&nbsp;</span>
-                                        <span class="total-block__cost">{{ productsAmount }} р.</span>
+                                        <span class="total-block__cost">{{ productsAmount - deliveryPrice - discount }} р.</span>
                                     </div>
                                 </div>
                                 <button class="total-block__button _button" type="submit">Перейти к оплате</button>
