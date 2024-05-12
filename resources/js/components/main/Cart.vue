@@ -150,10 +150,6 @@ export default {
                         </tbody>
                     </table>
                     <div class="cart__subcart subcart">
-                        <div class="subcart__promo-block promo-block">
-                            <input class="promo-block__input" type="text" name="promo-code" placeholder="Промокод">
-                            <button class="promo-block__button _button" type="submit">Подтвердить</button>
-                        </div>
                         <div class="subcart__amount-block-subcart">
                             <div class="amount-block-subcart__total">
                                 <span class="amount-block-subcart__text">Итого:&nbsp;</span>
@@ -271,13 +267,13 @@ export default {
                                 </div>
                                 <div class="check-block__content">
                                     <input @click="deliveryPrice = 350" class="check-block__radio" type="radio" id="delivery2" name="delivery_type">
-                                    <label for="delivery2" class="check-block__title">СДЭК 350 р.</label>
+                                    <label for="delivery2" class="check-block__title">EMS 350 р.</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <h3 class="make-order__subtitle">Способ оплаты</h3>
-                    <div class="make-order__column">
+                    <div class="make-order__row">
                         <div class="make-order__check-block check-block">
                             <div class="check-block__body">
                                 <div class="check-block__content">
@@ -287,6 +283,15 @@ export default {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <h3 class="make-order__subtitle">Промокод</h3>
+                    <div class="make-order__row">
+                        <div class="subcart__promo-block promo-block">
+                            <input class="promo-block__input" type="text" name="promo-code" placeholder="Промокод">
+                            <button class="promo-block__button _button" type="submit">Подтвердить</button>
+                        </div>
+                    </div>
+                    <div class="make-order__column">
                         <div class="make-order__total-block total-block">
                             <div class="total-block__body">
                                 <div class="total-block__content">

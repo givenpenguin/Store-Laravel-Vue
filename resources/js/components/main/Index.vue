@@ -54,6 +54,7 @@ export default {
                     'prices': this.prices,
                     'page': page,
                 })
+            console.log(data)
             this.products = data.data
             this.pagination = data.meta
             this.originalProducts = [...this.products]

@@ -374,4 +374,35 @@ export default {
     .wrapper {
         min-height: 100vh;
     }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+            display: block;
+        }
+    }
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+            display: none;
+        }
+    }
+    .main__closer {
+        animation: fadeOut 0.5s ease forwards;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        z-index: 98;
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+    .main__closer.active {
+        animation: fadeIn 0.5s ease forwards;
+    }
 </style>

@@ -52,12 +52,11 @@ label, .filter__title {
 	position: relative;
 
 	img {
-		position: absolute;
 		width: 100%;
 		height: 100%;
 		top: 0;
 		left: 0;
-		object-fit: cover;
+		object-fit: contain;
 	}
 }
 ._button-svg {
@@ -706,7 +705,6 @@ label, .filter__title {
 
 	&__item-image {
 		display: block;
-		padding: 0 0 100% 0;
 		margin: 0px 0px 20px 0px;
 	}
 	
@@ -783,6 +781,7 @@ label, .filter__title {
 	}
 
 	&__link {
+		
 		&.active {
 			background-color: #000000;
 			color: #FFFFFF;

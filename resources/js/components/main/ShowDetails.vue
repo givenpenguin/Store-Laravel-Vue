@@ -178,5 +178,7 @@ export default {
 </template>
 
 <style>
-
+.details__description {
+    white-space: pre-wrap;
+}
 </style>

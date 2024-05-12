@@ -19,8 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('preview_image');
 
-            $table->integer('price');
-            $table->integer('discount_price')->nullable();
+            $table->float('price');
+            $table->float('discount')->nullable();
             $table->integer('quantity');
 
             $table->foreignId('category_id')->nullable()->index()->constrained('categories')->onDelete('cascade')->onUpdate('cascade');

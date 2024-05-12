@@ -83,9 +83,9 @@
                         @error('price') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="discount_price">Цена со скидкой</label>
-                        <input type="text" value="{{ $product->discount_price ?? old('discount_price') }}" name="discount_price" class="form-control" placeholder="Цена со скидкой">
-                        @error('discount_price') <div class="panel alert-danger">{{ $message }}</div> @enderror
+                        <label for="discount_price">Размер скидки в %</label>
+                        <input type="text" value="{{ $product->discount ?? old('discount') }}" name="discount" class="form-control" placeholder="Размер скидки">
+                        @error('discount') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
                         <label for="quantity">Количество на складе*</label>

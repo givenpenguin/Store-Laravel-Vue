@@ -25,7 +25,7 @@
 	&__body {
 		display: flex;
 		flex-direction: column;
-		padding: 30px 0px 40px 0;
+		padding: 30px 0;
 	}
 
 	&__table {
@@ -126,7 +126,7 @@
 
 		&__image {
 			width: 50%;
-			padding: 0 0 50% 0;
+			height: 50%;
 		}
 
 		&__product {
@@ -147,19 +147,19 @@
 }
 .subcart {
 	display: flex;
-	flex-direction: row;
+	justify-content: end;
 	padding: 30px 0px 0px 0px;
-	align-items: center;
 
 	&__promo-block {
 		
 	}
 
 	&__amount-block-subcart {
-		min-width: 160px;
+		
 	}
 
 	@media (max-width: 750px) {
+		align-items: center;
 		flex-direction: column;
 
 		&__amount-block-subcart {
@@ -170,21 +170,21 @@
 .promo-block {
 	display: flex;
 	flex-direction: row;
-	margin: 0px 30px 0px 0px;
+	margin: 0px 20px 0px 0px;
 
 	&__input {
 		border: 1px solid #797979b7;
 		text-align: center;
-		margin: 0px 20px 0px 0px;
-		width: 200px;
-		height: 50px;
+		margin: 0px 10px 0px 0px;
+		width: 180px;
+		height: 45px;
 		font-size: 15px;
 	}
 
 	&__button {
 		padding: 10px 30px;
-		height: 50px;
-		width: 180px;
+		width: 150px;
+		height: 45px;
 
 		background: #000000;
 
@@ -205,6 +205,7 @@
 		&__button {
 			align-self: center;
 			margin: 10px 0px 0px 0px;
+			width: 180px;
 		}
 	}
 }
@@ -259,7 +260,6 @@
 	&__column {
 		display: flex;
 		flex-direction: column;
-		padding: 20px 0;
 	}
 
 	&__table {
@@ -392,8 +392,7 @@
 	}
 }
 .total-block {
-	font-size: 14px;
-	padding: 15px 0px 0px 0px;
+	font-size: 16px;
 
 	&__body {
 
@@ -418,7 +417,7 @@
 	}
 
 	&__total {
-		font-size: 16px;
+		font-size: 18px;
 		font-weight: 700;
 		margin: 10px 0px 0px 0px;
 	}
