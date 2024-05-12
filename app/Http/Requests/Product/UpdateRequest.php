@@ -26,12 +26,12 @@ class UpdateRequest extends FormRequest
             'article' => 'required|string',
             'description' => 'nullable|string',
             'preview_image' => 'required|file',
-            'price' => 'required|integer',
-            'discount_price' => 'nullable|integer',
+            'product_images' => 'nullable|array',
+            'price' => 'required|float',
+            'discount' => 'nullable|float',
             'quantity' => 'required|integer',
             'category_id' => 'required|integer',
             'sizes' => 'required|array',
-            'product_images' => 'nullable|array',
         ];
     }
 }

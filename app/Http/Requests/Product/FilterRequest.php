@@ -23,7 +23,7 @@ class FilterRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'price' => 'required|integer',
+            'price' => 'required|float',
             'category_id' => 'required|integer',
             'sizes' => 'required|array',
         ];

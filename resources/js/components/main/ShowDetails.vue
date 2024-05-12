@@ -63,6 +63,7 @@ export default {
                     'image': this.product.image_url,
                     'title': this.product.title,
                     'price': this.product.price,
+                    'discount': this.product.discount,
                     'size': this.titleSelectedSize,
                     'quantity': 1
                 }
@@ -153,7 +154,10 @@ export default {
                                 </div>
                             </div>
                             <div class="details__content">
-                                <span class="details__price">{{ product.price}} р.</span>
+                                <div class="details__price-block">
+                                    <span class="details__price" :class="{disabled:product.discount}">{{ product.price}} р.</span>
+                                    <span v-if="product.discount" class="details__price">{{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</span>
+                                </div>
                                 <div class="details__size-block size-block">
                                     <span class="size-block__title">Размер:</span>
                                     <ul class="size-block__list">
@@ -162,7 +166,7 @@ export default {
                                         </li>
                                     </ul>
                                 </div>
-                                <button class="details__cart-button _button" type="submit" @click="addToCart"></button>
+                                <button class="details__cart-button _button" :class="{'out-of-stock':product.quantity < 1}" type="submit" @click="addToCart"></button>
                             </div>
                             <div class="details__description">
                                 <p>{{ product.description }}</p>

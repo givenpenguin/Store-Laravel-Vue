@@ -234,7 +234,7 @@
 	&__items {
 		flex: 1 1 auto;
 
-		&.disable {
+		&.disabled {
 			display: none;
 		}
 	}
@@ -315,7 +315,9 @@
 	}
 
 	&__price {
-
+		&.disabled {
+			display: none;
+		}
 	}
 
 	&__controls {
@@ -385,8 +387,27 @@
 
 	}
 
-	&__amount {
+	&__price {
 
+	}
+
+	&__amount {
+		
+		&.disabled {
+			text-decoration: line-through;
+			color: #b2b2b2;
+		}
+
+		&:not(:last-child) {
+			margin: 0px 10px 0px 0px;
+		}
+	}
+
+	&__discount {
+
+		&.disabled {
+			display: none;
+		}
 	}
 
 	&__button {
@@ -401,7 +422,7 @@
 		color: #ffffff;
 	}
 
-	&.disable {
+	&.disabled {
 		display: none;
 	}
 

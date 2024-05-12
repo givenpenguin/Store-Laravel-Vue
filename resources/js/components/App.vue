@@ -22,6 +22,7 @@ export default {
             productsInCart: [],
             productsQty: 0,
             productsAmount: 0,
+            productsAmountDiscount: 0,
         }
     },
 
@@ -51,11 +52,13 @@ export default {
         getActualDataInCart() {
             this.productsQty = 0
             this.productsAmount = 0
+            this.productsAmountDiscount = 0
 
             if(this.productsInCart) {
                 this.productsInCart.forEach(item => {
                     this.productsQty += item.quantity
                     this.productsAmount += item.price * item.quantity
+                    this.productsAmountDiscount += Math.floor(item.price - (item.price * (item.discount / 100))) * item.quantity
                 })
             }
         },
@@ -232,7 +235,8 @@ export default {
                                                         <span class="item-cart__size">Размер: {{ product.size }}</span>
                                                     </p>
                                                     <p class="item-cart__info">
-                                                        <span class="item-cart__price">Цена: {{ product.price }} р.</span>
+                                                        <span class="item-cart__price" :class="{disabled:product.discount}">Цена: {{ product.price }} р.</span>
+                                                        <span v-if="product.discount" class="item-cart__price">Цена: {{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -266,10 +270,13 @@ export default {
                                 </div>
                             </template>
                         </div>
-                        <div class="drawer__amount-block amount-block-drawer" :class="{disable:productsInCart.length === 0}">
+                        <div class="drawer__amount-block amount-block-drawer" :class="{disabled:productsInCart.length === 0}">
                             <div class="amount-block-drawer__total">
                                 <span class="amount-block-drawer__text">Итого:</span>
-                                <span class="amount-block-drawer__amount">{{ productsAmount }} р.</span>
+                                <div class="amount-block-drawer__price">
+                                    <span class="amount-block-drawer__amount" :class="{disabled:productsAmountDiscount !== productsAmount}">{{ productsAmount }} р.</span>
+                                    <span v-if="productsAmountDiscount !== productsAmount" class="amount-block-drawer__discount">{{ productsAmountDiscount }} р.</span>
+                                </div>
                             </div>
                             <router-link :to="{name: 'cart'}" @click="toggleDrawer(false)" class="amount-block-drawer__button _button">Оформить заказ</router-link>
                         </div>

@@ -11,6 +11,7 @@ export default {
             productsInCart: [],
             productsQty: 0,
             productsAmount: 0,
+            productsAmountDiscount: 0,
 
             deliveryPrice: 0,
             discount: 0,
@@ -21,11 +22,13 @@ export default {
         getActualDataInCart() {
             this.productsQty = 0
             this.productsAmount = 0
+            this.productsAmountDiscount = 0
 
             if(this.productsInCart) {
                 this.productsInCart.forEach(item => {
                     this.productsQty += item.quantity
                     this.productsAmount += item.price * item.quantity
+                    this.productsAmountDiscount += Math.floor(item.price - (item.price * (item.discount / 100))) * item.quantity
                 })
             }
         },
@@ -73,7 +76,7 @@ export default {
 </script>
 
 <template>
-    <div class="main__content" :class="{disable:productsInCart.length === 0}">
+    <div class="main__content" :class="{disabled:productsInCart.length === 0}">
         <div class="main__cart cart">
             <div class="cart__container _container">
                 <div class="cart__header-block header-block">
@@ -108,7 +111,8 @@ export default {
                                         <span class="column__size">{{ product.size }}</span>
                                     </td>
                                     <td class="table__column column">
-                                        <span class="column__price">{{ product.price }} р.</span>
+                                        <div v-if="product.discount" class="column__price" :class="{disabled:product.discount}">{{ product.price }} р.</div>
+                                        <div class="column__price">{{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</div>
                                     </td>
                                     <td class="table__column column">
                                         <div class="column__quantity quantity">
@@ -132,7 +136,8 @@ export default {
                                         </div>
                                     </td>
                                     <td class="table__column column">
-                                        <span class="column__subtotal">{{ product.price * product.quantity }} р.</span>
+                                        <span v-if="product.discount" class="column__subtotal" :class="{disabled:product.discount}">{{ product.price * product.quantity }} р.</span>
+                                        <span class="column__subtotal">{{ Math.floor(product.price - (product.price * (product.discount / 100))) * product.quantity }} р.</span>
                                     </td>
                                     <td class="table__column column">
                                         <button @click.prevent="removeProductFromCart" class="column__remove _button-svg" type="button">
@@ -153,7 +158,8 @@ export default {
                         <div class="subcart__amount-block-subcart">
                             <div class="amount-block-subcart__total">
                                 <span class="amount-block-subcart__text">Итого:&nbsp;</span>
-                                <span class="amount-block-subcart__amount">{{ productsAmount }} р.</span>
+                                <span class="amount-block-subcart__amount" :class="{disabled:productsAmountDiscount !== productsAmount}">{{ productsAmount }} р.</span>
+                                <span v-if="productsAmountDiscount !== productsAmount" class="amount-block-subcart__amount">{{ productsAmountDiscount }} р.</span>
                             </div>
                         </div>
                     </div>
@@ -305,11 +311,11 @@ export default {
                                     </div>
                                     <div class="total-block__amount">
                                         <span class="total-block__text">Скидка:&nbsp;</span>
-                                        <span class="total-block__cost">{{ discount }} р.</span>
+                                        <span class="total-block__cost">{{ productsAmount - productsAmountDiscount }} р.</span>
                                     </div>
                                     <div class="total-block__total">
                                         <span class="total-block__text">Итоговая сумма:&nbsp;</span>
-                                        <span class="total-block__cost">{{ productsAmount - deliveryPrice - discount }} р.</span>
+                                        <span class="total-block__cost">{{ productsAmountDiscount + deliveryPrice }} р.</span>
                                     </div>
                                 </div>
                                 <button class="total-block__button _button" type="submit">Перейти к оплате</button>

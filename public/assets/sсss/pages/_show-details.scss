@@ -171,9 +171,22 @@
 		}
 	}
 
+	&__price-block {
+		
+	}
+
 	&__price {
 		font-size: 19px;
 		font-weight: 700;
+
+		&.disabled {
+			text-decoration: line-through;
+			color: #b2b2b2;
+		}
+
+		&:not(:last-child) {
+			margin: 0px 10px 0px 0px;
+		}
 	}
 
 	&__size-block {
@@ -256,7 +269,7 @@
 
 	&__button {
 		
-		&.disable {
+		&.disabled {
 			pointer-events: none;
 			border: 1px solid #eeeeee;
 			color: #dedede;

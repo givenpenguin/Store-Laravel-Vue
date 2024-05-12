@@ -54,7 +54,7 @@ export default {
                     'prices': this.prices,
                     'page': page,
                 })
-            console.log(data)
+            console.log(data.meta)
             this.products = data.data
             this.pagination = data.meta
             this.originalProducts = [...this.products]
@@ -224,7 +224,11 @@ export default {
                                             </div>
                                             <div class="item-product__content">
                                                 <h3 class="item-product__title">{{ product.title }}</h3>
-                                                <span class="item-product__price">{{ product.price }} р.</span>
+                                                <div class="item-product__price-block">
+                                                    <span class="item-product__price" :class="{disabled:product.discount}">{{ product.price }} р.</span>
+                                                    <span v-if="product.discount" class="item-product__price">{{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</span>
+                                                </div>
+                                                <span v-if="product.quantity < 1" class="item-product__out-of-stock">Нет в наличии</span>
                                             </div>
                                         </router-link>
                                     </div>
@@ -234,7 +238,7 @@ export default {
                                 <div class="pagination__container _container">
                                     <ul class="pagination__body">
                                         <li class="pagination__button">
-                                            <a @click.prevent="getProducts(pagination.current_page - 1)" v-if="pagination.current_page !== 1" href="#" class="pagination__link _button-svg">
+                                            <a @click.prevent="getProducts(pagination.current_page - 1)" v-if="pagination.current_page !== 1" class="pagination__link _button-svg">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15 18L9 12L15 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"
@@ -242,17 +246,34 @@ export default {
                                                 </svg>
                                             </a>
                                         </li>
+
+                                        <li class="pagination__button">
+                                            <a @click.prevent="getProducts(1)" :class={active:pagination.links[1].active} class="pagination__link _button-svg">1</a>
+                                        </li>
+
+                                        <li v-if="pagination.current_page > 3" class="pagination__button">
+                                            <div class="pagination__link _button-svg disable">...</div>
+                                        </li>
+
                                         <template v-for="link in pagination.links">
-                                            <template v-if="Number(link.label) &&
-                                                (pagination.current_page - link.label < 2 && link.label - pagination.current_page < 2) ||
-                                                Number(link.label) === 1 || Number(link.label) === pagination.last_page">
+                                            <template v-if="Number(link.label) && link.label > 1 && link.label < pagination.last_page - 1 &&
+                                                (pagination.current_page - link.label < 2 && link.label - pagination.current_page < 2)">
                                                 <li class="pagination__button">
-                                                    <a @click.prevent="getProducts(link.label)" :class={active:link.active} href="#" class="pagination__link _button-svg">{{ link.label }}</a>
+                                                    <a @click.prevent="getProducts(link.label)" :class={active:link.active} class="pagination__link _button-svg">{{ link.label }}</a>
                                                 </li>
                                             </template>
                                         </template>
+
+                                        <li v-if="(pagination.last_page - 1) - pagination.current_page > 2" class="pagination__button">
+                                            <div class="pagination__link _button-svg disable">...</div>
+                                        </li>
+
                                         <li class="pagination__button">
-                                            <a @click.prevent="getProducts(pagination.current_page + 1)" v-if="pagination.current_page !== pagination.last_page" href="#" class="pagination__link _button-svg">
+                                            <a @click.prevent="getProducts(pagination.last_page-1)" :class={active:pagination.links[pagination.last_page-1].active} class="pagination__link _button-svg">{{ pagination.last_page - 1 }}</a>
+                                        </li>
+
+                                        <li class="pagination__button">
+                                            <a @click.prevent="getProducts(pagination.current_page + 1)" v-if="pagination.current_page !== pagination.last_page" class="pagination__link _button-svg">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M9 18L15 12L9 6" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round"

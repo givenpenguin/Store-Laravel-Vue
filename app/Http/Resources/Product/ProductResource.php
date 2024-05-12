@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'sizes' => SizeResource::collection($this->sizes),
             'image_url' => $this->imageUrl,
             'price' => $this->price,
-            'discount_price' => $this->discount_price,
+            'discount' => $this->discount,
             'quantity' => $this->quantity,
             'category' => new CategoryResource($this->category),
         ];
