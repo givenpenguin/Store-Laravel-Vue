@@ -54,6 +54,7 @@
                     </div>
                 </div>
             </div>
+            {{ $categories->links() }}
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>

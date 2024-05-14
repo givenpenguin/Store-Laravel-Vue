@@ -36,7 +36,7 @@
                                 @csrf
                                 @method('delete')
 
-                                <input type="submit" class="btn btn-danger" value="Удалить">
+                                <input type="submit" class="btn btn-danger" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить?')">
                             </form>
                         </div>
 

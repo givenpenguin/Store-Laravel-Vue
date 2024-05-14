@@ -18,7 +18,7 @@ class StoreController extends Controller
         $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
 
         $sizesId = $data['sizes'];
-        $productImages = $data['product_images'];
+        $productImages = $data['product_images'] ?? [];
         unset($data['sizes'], $data['product_images']);
 
         $product = Product::firstOrCreate([

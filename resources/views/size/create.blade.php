@@ -31,7 +31,7 @@
 
                     <div class="form-group">
                         <label for="title">Наименование*</label>
-                        <input type="text" name="title" class="form-control" placeholder="Наименование">
+                        <input type="text" name="title" class="form-control" placeholder="Наименование" value="{{ old('title') }}">
                         @error('title') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">

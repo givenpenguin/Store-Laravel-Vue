@@ -58,8 +58,10 @@ Route::group(['prefix' => 'admin'], function ()
         Route::get('/create', \App\Http\Controllers\Product\CreateController::class)->name('product.create');
         Route::post('/', \App\Http\Controllers\Product\StoreController::class)->name('product.store');
         Route::get('/{product}/edit', \App\Http\Controllers\Product\EditController::class)->name('product.edit');
+        Route::get('/{product}/edit-image', \App\Http\Controllers\Product\EditImageController::class)->name('product.edit-image');
         Route::get('/{product}', \App\Http\Controllers\Product\ShowController::class)->name('product.show');
-        Route::patch('/{product}', \App\Http\Controllers\Product\UpdateController::class)->name('product.update');
+        Route::patch('/{product}/update', \App\Http\Controllers\Product\UpdateController::class)->name('product.update');
+        Route::patch('/{product}/update-image', \App\Http\Controllers\Product\UpdateImageController::class)->name('product.update-image');
         Route::delete('/{product}', \App\Http\Controllers\Product\DeleteController::class)->name('product.delete');
     });
 });

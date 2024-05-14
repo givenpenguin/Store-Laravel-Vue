@@ -46,38 +46,6 @@
                         @error('description') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="preview_image">Превью*</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input name="preview_image" itemid="preview_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                        @error('preview_image') <div class="panel alert-danger">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="product_images">Фото</label>
-                        <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                        <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                        <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                        @error('product_images') <div class="panel alert-danger">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="form-group">
                         <label for="price">Цена*</label>
                         <input type="text" value="{{ $product->price ?? old('price') }}" name="price" class="form-control" placeholder="Цена">
                         @error('price') <div class="panel alert-danger">{{ $message }}</div> @enderror
@@ -97,15 +65,12 @@
                         <label for="sizes">Размеры*</label>
                         <select name="sizes[]" class="sizes" multiple="multiple" data-placeholder="Выберите размеры" style="width: 100%;">
                             @foreach($sizes as $size)
-                            <option value="{{ $size->id }}">{{ $size->title }}</option>
+                                <option value="{{ $size->id }}"
+                                    @foreach($product->sizes as $productSize)
+                                        {{ $productSize->title === $size->title ? 'selected' : '' }}
+                                    @endforeach
+                                >{{ $size->title }}</option>
                             @endforeach
-{{--                            @foreach($sizes as $size)--}}
-{{--                                @if($size == $product->sizes)--}}
-{{--                                <option selected="selected">{{ $product->sizes }}</option>--}}
-{{--                                @else--}}
-{{--                                <option value="{{ $size->id }}">{{ $size->title }}</option>--}}
-{{--                                @endif--}}
-{{--                            @endforeach--}}
                         </select>
                         @error('sizes') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
@@ -115,7 +80,7 @@
                         <select name="category_id" class="form-control select2" style="width: 100%;">
                             <option selected="selected" disabled>Выберите категорию</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                <option value="{{ $category->id }}" {{ $product->category_id === $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
                             @endforeach
                         </select>
                         @error('category_id') <div class="panel alert-danger">{{ $message }}</div> @enderror

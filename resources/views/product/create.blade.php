@@ -54,32 +54,17 @@
                         </div>
                         @error('preview_image') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="image">Фото</label>
                         <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
+                            <button type="button" class="btn btn-block btn-default file-chooser">Загрузить</button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group mb-1">
-                            <div class="custom-file">
-                                <input name="product_images[]" itemid="product_image" type="file" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label" for="exampleInputFile">File</label>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="list-input"></div>
+                        <div class="list-images"></div>
                         @error('product_images') <div class="panel alert-danger">{{ $message }}</div> @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="price">Цена*</label>
                         <input type="text" value="{{ old('price') }}" name="price" class="form-control" placeholder="Цена">
@@ -109,9 +94,9 @@
                     <div class="form-group">
                         <label for="category_id">Категория*</label>
                         <select name="category_id" class="form-control select2" style="width: 100%;">
-                            <option selected="selected" disabled>Выберите категорию</option>
+                            <option selected disabled>Выберите категорию</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
                             @endforeach
                         </select>
                         @error('category_id') <div class="panel alert-danger">{{ $message }}</div> @enderror
@@ -126,4 +111,5 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    <script src="{{ asset('adminlte/js/main.js') }}"></script>
 @endsection

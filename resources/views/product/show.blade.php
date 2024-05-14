@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Категория</h1>
+                    <h1 class="m-0">Товар</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -32,11 +32,14 @@
                             <div class="mr-3">
                                 <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Редактировать</a>
                             </div>
+                            <div class="mr-3">
+                                <a href="{{ route('product.edit-image', $product->id) }}" class="btn btn-primary">Изменить изображения</a>
+                            </div>
                             <form action="{{ route('product.delete', $product->id) }}" method="post">
                                 @csrf
                                 @method('delete')
 
-                                <input type="submit" class="btn btn-danger" value="Удалить">
+                                <input type="submit" class="btn btn-danger" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить?')">
                             </form>
                         </div>
 
@@ -51,6 +54,34 @@
                                     <tr>
                                         <td>Наименование</td>
                                         <td>{{ $product->title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Артикул</td>
+                                        <td>{{ $product->article }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Цена</td>
+                                        <td>{{ $product->price }} р.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Скидка</td>
+                                        <td>{{ $product->discount }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Количество</td>
+                                        <td>{{ $product->quantity }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Размеры</td>
+                                        <td>
+                                            @foreach($product->sizes as $size)
+                                                {{ $size->title }}
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Категория</td>
+                                        <td>{{ $product->category->title }}</td>
                                     </tr>
                                 </tbody>
                             </table>

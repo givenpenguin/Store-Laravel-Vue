@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">Главная</a>
                         </li>
-                        <li class="breadcrumb-item active">Категории</li>
+                        <li class="breadcrumb-item active">Пользователи</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

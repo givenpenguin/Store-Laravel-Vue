@@ -42,10 +42,10 @@
                                 </thead>
                                 <tbody>
                                 @foreach($sizes as $size)
-                                    <tr>
-                                        <td>{{ $size->id }}</td>
-                                        <td><a href="{{ route('size.show', $size->id) }}">{{ $size->title }}</a></td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $size->id }}</td>
+                                    <td><a href="{{ route('size.show', $size->id) }}">{{ $size->title }}</a></td>
+                                </tr>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -54,6 +54,7 @@
                     </div>
                 </div>
             </div>
+            {{ $sizes->links() }}
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>

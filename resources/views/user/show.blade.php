@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">Главная</a>
                         </li>
-                        <li class="breadcrumb-item active">Категории</li>
+                        <li class="breadcrumb-item active">Пользователи</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -36,7 +36,7 @@
                                 @csrf
                                 @method('delete')
 
-                                <input type="submit" class="btn btn-danger" value="Удалить">
+                                <input type="submit" class="btn btn-danger" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить?')">
                             </form>
                         </div>
 

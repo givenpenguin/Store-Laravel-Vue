@@ -252,11 +252,11 @@ export default {
                                         </li>
 
                                         <li v-if="pagination.current_page > 3" class="pagination__button">
-                                            <div class="pagination__link _button-svg disable">...</div>
+                                            <div class="_button-svg disable">...</div>
                                         </li>
 
                                         <template v-for="link in pagination.links">
-                                            <template v-if="Number(link.label) && link.label > 1 && link.label < pagination.last_page - 1 &&
+                                            <template v-if="Number(link.label) && link.label > 1 && link.label < pagination.last_page &&
                                                 (pagination.current_page - link.label < 2 && link.label - pagination.current_page < 2)">
                                                 <li class="pagination__button">
                                                     <a @click.prevent="getProducts(link.label)" :class={active:link.active} class="pagination__link _button-svg">{{ link.label }}</a>
@@ -264,12 +264,12 @@ export default {
                                             </template>
                                         </template>
 
-                                        <li v-if="(pagination.last_page - 1) - pagination.current_page > 2" class="pagination__button">
-                                            <div class="pagination__link _button-svg disable">...</div>
+                                        <li v-if="(pagination.last_page) - pagination.current_page > 2" class="pagination__button">
+                                            <div class="_button-svg disable">...</div>
                                         </li>
 
                                         <li class="pagination__button">
-                                            <a @click.prevent="getProducts(pagination.last_page-1)" :class={active:pagination.links[pagination.last_page-1].active} class="pagination__link _button-svg">{{ pagination.last_page - 1 }}</a>
+                                            <a @click.prevent="getProducts(pagination.last_page)" :class={active:pagination.links[pagination.last_page-1].active} class="pagination__link _button-svg">{{ pagination.last_page }}</a>
                                         </li>
 
                                         <li class="pagination__button">

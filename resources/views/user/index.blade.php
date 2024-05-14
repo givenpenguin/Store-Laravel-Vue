@@ -56,6 +56,7 @@
                     </div>
                 </div>
             </div>
+            {{ $users->links() }}
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>

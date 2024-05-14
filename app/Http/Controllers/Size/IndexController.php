@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $sizes = Size::all();
+        $sizes = Size::paginate(20);
 
         return view('size.index', compact('sizes'));
     }

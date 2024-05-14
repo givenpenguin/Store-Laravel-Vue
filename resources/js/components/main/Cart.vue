@@ -306,12 +306,12 @@ export default {
                                         <span class="total-block__cost">{{ productsAmount }} р.</span>
                                     </div>
                                     <div class="total-block__amount">
-                                        <span class="total-block__text">Доставка:&nbsp;</span>
-                                        <span class="total-block__cost">{{ deliveryPrice }} р.</span>
-                                    </div>
-                                    <div class="total-block__amount">
                                         <span class="total-block__text">Скидка:&nbsp;</span>
                                         <span class="total-block__cost">{{ productsAmount - productsAmountDiscount }} р.</span>
+                                    </div>
+                                    <div class="total-block__amount">
+                                        <span class="total-block__text">Доставка:&nbsp;</span>
+                                        <span class="total-block__cost">{{ deliveryPrice }} р.</span>
                                     </div>
                                     <div class="total-block__total">
                                         <span class="total-block__text">Итоговая сумма:&nbsp;</span>
