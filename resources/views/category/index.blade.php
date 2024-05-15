@@ -24,38 +24,35 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <a href="{{ route('category.create') }}" class="btn btn-primary">Добавить</a>
-                        </div>
 
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Наименование</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($categories as $category)
-                                <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td><a href="{{ route('category.show', $category->id) }}">{{ $category->title }}</a></td>
-                                </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+            <div class="card">
+                <div class="card-body">
+                    <div id="table-details_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <a href="{{ route('category.create') }}" class="btn btn-primary">Добавить</a>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table-details" class="table table-bordered dataTable dtr-inline">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="ID: activate to sort column descending">ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="Наименование: activate to sort column ascending">Наименование</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($categories as $category)
+                                        <tr>
+                                            <td><a href="{{ route('category.show', $category->id) }}">{{ $category->id }}</a></td>
+                                            <td><a href="{{ route('category.show', $category->id) }}">{{ $category->title }}</a></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            {{ $categories->links() }}
-            <!-- /.row -->
+
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->

@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $users = User::paginate(20);
+        $users = User::all();
 
         return view('user.index', compact('users'));
     }

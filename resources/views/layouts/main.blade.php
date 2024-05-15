@@ -18,7 +18,6 @@
 
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -48,7 +47,7 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
-                        <a href="pages/orders.html" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-shopping-bag"></i>
                             <p>Заказы</p>
                         </a>
@@ -129,21 +128,37 @@ $(function () {
 </script>
 
 <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script>
     $(function () {
-        $("#table-products").DataTable({
+        $("#table-details").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
-        }).buttons().container().appendTo('#table-products_wrapper .col-md-6:eq(0)');
+            pageLength: 20,
+        });
     });
 </script>
 </body>
+
+<style>
+    table tr td a {
+        display:block;
+        height:100%;
+        width:100%;
+        color: #000000;
+    }
+    table tr td {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    table tr td a:hover {
+        color: #000000;
+    }
+    table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
 </html>

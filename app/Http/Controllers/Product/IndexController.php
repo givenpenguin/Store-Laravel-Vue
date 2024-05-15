@@ -14,7 +14,7 @@ class IndexController extends Controller
         $sizes = Size::all();
         $categories = Category::all();
 
-        $products = Product::paginate(20);
+        $products = Product::all();
 
         return view('product.index', compact('products', 'sizes', 'categories'));
     }
