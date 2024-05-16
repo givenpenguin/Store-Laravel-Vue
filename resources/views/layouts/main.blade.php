@@ -143,6 +143,10 @@ $(function () {
 </body>
 
 <style>
+    .required-label:after{
+        content: '*';
+        color: red;
+    }
     table tr td a {
         display:block;
         height:100%;

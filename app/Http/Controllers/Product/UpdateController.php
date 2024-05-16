@@ -14,6 +14,7 @@ class UpdateController extends Controller
         $data = $request->validated();
 
         $sizesId = $data['sizes'];
+        $quantities = $data['quantities'];
         unset($data['sizes']);
 
         $product->update([
@@ -22,15 +23,15 @@ class UpdateController extends Controller
             'description' => $data['description'],
             'price' => $data['price'],
             'discount' => $data['discount'],
-            'quantity' => $data['quantity'],
             'category_id' => $data['category_id'],
         ]);
 
         SizeProduct::where('product_id', $product['id'])->delete();
-        foreach ($sizesId as $sizeId) {
+        foreach ($sizesId as $key => $sizeId) {
             SizeProduct::updateOrCreate([
                 'product_id' => $product->id,
                 'size_id' => $sizeId,
+                'quantity' => $quantities[$key],
             ]);
         }
 

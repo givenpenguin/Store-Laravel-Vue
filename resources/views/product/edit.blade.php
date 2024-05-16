@@ -31,12 +31,12 @@
                     @method('patch')
 
                     <div class="form-group">
-                        <label for="title">Наименование*</label>
+                        <label for="title" class="required-label">Наименование</label>
                         <input type="text" value="{{ $product->title ?? old('title') }}" name="title" class="form-control" placeholder="Наименование">
                         @error('title') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="article">Артикул*</label>
+                        <label for="article" class="required-label">Артикул</label>
                         <input type="text" value="{{ $product->article ?? old('article') }}" name="article" class="form-control" placeholder="Артикул">
                         @error('article') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
@@ -46,37 +46,39 @@
                         @error('description') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="price">Цена*</label>
-                        <input type="text" value="{{ $product->price ?? old('price') }}" name="price" class="form-control" placeholder="Цена">
+                        <label for="price" class="required-label">Цена</label>
+                        <input type="number" value="{{ $product->price ?? old('price') }}" name="price" min="1" class="form-control" placeholder="Цена">
                         @error('price') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
                         <label for="discount_price">Размер скидки в %</label>
-                        <input type="text" value="{{ $product->discount ?? old('discount') }}" name="discount" class="form-control" placeholder="Размер скидки">
+                        <input type="number" value="{{ $product->discount ?? old('discount') }}" name="discount" min="1" class="form-control" placeholder="Размер скидки">
                         @error('discount') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="quantity">Количество на складе*</label>
-                        <input type="text" value="{{ $product->quantity ?? old('quantity') }}" name="quantity" class="form-control" placeholder="Количество">
-                        @error('quantity') <div class="panel alert-danger">{{ $message }}</div> @enderror
-                    </div>
+                        <label class="required-label">Размеры</label>
+                        @foreach($sizes as $size)
+                            @php
+                                foreach($product->sizes as $productSize)
+                                    if($productSize->id === $size->id){
+                                        {{ $isChecked = true; }}
+                                        {{ $quantity = $productSize->pivot->quantity; }}
+                                    }
+                            @endphp
 
-                    <div class="form-group">
-                        <label for="sizes">Размеры*</label>
-                        <select name="sizes[]" class="sizes" multiple="multiple" data-placeholder="Выберите размеры" style="width: 100%;">
-                            @foreach($sizes as $size)
-                                <option value="{{ $size->id }}"
-                                    @foreach($product->sizes as $productSize)
-                                        {{ $productSize->title === $size->title ? 'selected' : '' }}
-                                    @endforeach
-                                >{{ $size->title }}</option>
-                            @endforeach
-                        </select>
-                        @error('sizes') <div class="panel alert-danger">{{ $message }}</div> @enderror
+                            <div class="d-flex nowrap mb-2 form-check">
+                                <input id="size-input-{{ $size->id }}" class="form-check-input" type="checkbox" value="{{ $size->id }}"
+                                       {{ $isChecked ? 'checked' : '' }} name="sizes[]" onchange="toggleInputAvailability('quantity-input-{{ $size->id }}')">
+                                <label for="sizes" class="col-sm-2 col-form-label">{{ $size->title }}</label>
+                                <input id="quantity-input-{{ $size->id }}" type="number" value="{{ $quantity }}"
+                                       min="1" name="quantities[]" class="form-control" placeholder="Количество на складе"
+                                       {{ $isChecked ? '' : 'disabled' }} required>
+                            </div>
+                        @endforeach
+                        @error("sizes") <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="category_id">Категория*</label>
+                        <label for="category_id" class="required-label">Категория</label>
                         <select name="category_id" class="form-control select2" style="width: 100%;">
                             <option selected="selected" disabled>Выберите категорию</option>
                             @foreach($categories as $category)
@@ -95,4 +97,11 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    <script>
+        function toggleInputAvailability(id) {
+            let input = document.getElementById(id);
+            input.disabled = !input.disabled
+            input.disabled === true ? input.value = '' : '';
+        }
+    </script>
 @endsection

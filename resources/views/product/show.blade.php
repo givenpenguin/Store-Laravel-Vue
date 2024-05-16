@@ -65,11 +65,22 @@
                                     </tr>
                                     <tr>
                                         <td>Скидка</td>
-                                        <td>{{ $product->discount }}</td>
+                                        <td>{{ $product->discount }} %</td>
                                     </tr>
                                     <tr>
                                         <td>Количество</td>
-                                        <td>{{ $product->quantity }}</td>
+                                        <td>
+                                            @php
+                                                $quantity = 0;
+                                                foreach($product->sizes as $size) {
+                                                    $quantity += $size->pivot->quantity;
+                                                }
+                                            @endphp
+                                            @foreach($product->sizes as $size)
+                                                {{ $size->title }} ({{ $size->pivot->quantity }})
+                                            @endforeach
+                                            <br>Всего: {{ $quantity }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Размеры</td>

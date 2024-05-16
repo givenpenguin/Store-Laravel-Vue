@@ -16,6 +16,7 @@ export default {
             isLoaded: false,
             idSelectedSize: null,
             titleSelectedSize: null,
+            qtySelectedSize: 0,
 
             images: {
                 url: [],
@@ -65,6 +66,7 @@ export default {
                     'price': this.product.price,
                     'discount': this.product.discount,
                     'size': this.titleSelectedSize,
+                    'sizeQty': this.qtySelectedSize,
                     'quantity': 1
                 }
             ]
@@ -89,8 +91,19 @@ export default {
             }
         },
         setDefaultSize() {
-            this.idSelectedSize = this.product.sizes[0].id
-            this.titleSelectedSize = this.product.sizes[0].title
+            let id, title, quantity;
+            this.product.sizes.find(size => {
+                if (size.quantity > 0) {
+                    console.log(size)
+                    id = size.id
+                    title = size.title
+                    quantity = size.quantity
+                    return true;
+                }
+            })
+            this.idSelectedSize = id
+            this.titleSelectedSize = title
+            this.qtySelectedSize = quantity
         },
         setCurrentImage(image) {
             this.images.current_image = this.images.url.indexOf(image)
@@ -162,7 +175,7 @@ export default {
                                     <span class="size-block__title">Размер:</span>
                                     <ul class="size-block__list">
                                         <li v-for="size in product.sizes" class="size-block__button-wrapper">
-                                            <button :class="{active:size.id === idSelectedSize}" @click="idSelectedSize=size.id; titleSelectedSize=size.title " class="size-block__button" type="button">{{ size.title }}</button>
+                                            <button v-bind:class="{disabled:parseInt(size.quantity) < 1, active:size.id === idSelectedSize}" @click="idSelectedSize=size.id; titleSelectedSize=size.title; qtySelectedSize=size.quantity" class="size-block__button" type="button">{{ size.title }}</button>
                                         </li>
                                     </ul>
                                 </div>

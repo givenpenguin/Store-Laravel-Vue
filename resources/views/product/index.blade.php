@@ -51,8 +51,21 @@
                                             <td><a href="{{ route('product.show', $product->id) }}">{{ $product->title }}</a></td>
                                             <td><a href="{{ route('product.show', $product->id) }}">{{ $product->article }}</a></td>
                                             <td><a href="{{ route('product.show', $product->id) }}">{{ $product->price }} р.</a></td>
-                                            <td><a href="{{ route('product.show', $product->id) }}">{{ $product->discount }}</a></td>
-                                            <td><a href="{{ route('product.show', $product->id) }}">{{ $product->quantity }}</a></td>
+                                            <td><a href="{{ route('product.show', $product->id) }}">{{ $product->discount ?? 0 }} %</a></td>
+                                            <td>
+                                                <a href="{{ route('product.show', $product->id) }}">
+                                                    @php
+                                                        $quantity = 0;
+                                                        foreach($product->sizes as $size) {
+                                                            $quantity += $size->pivot->quantity;
+                                                        }
+                                                    @endphp
+                                                    @foreach($product->sizes as $size)
+                                                        {{ $size->title }} ({{ $size->pivot->quantity }})
+                                                    @endforeach
+                                                    <br>Всего: {{ $quantity }}
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a href="{{ route('product.show', $product->id) }}">
                                                 @foreach($product->sizes as $size)

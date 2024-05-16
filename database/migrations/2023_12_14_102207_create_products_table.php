@@ -21,7 +21,6 @@ return new class extends Migration
 
             $table->float('price');
             $table->float('discount')->nullable();
-            $table->integer('quantity');
 
             $table->foreignId('category_id')->nullable()->index()->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
 

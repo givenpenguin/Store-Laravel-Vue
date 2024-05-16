@@ -18,6 +18,7 @@ class StoreController extends Controller
         $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
 
         $sizesId = $data['sizes'];
+        $quantities = $data['quantities'];
         $productImages = $data['product_images'] ?? [];
         unset($data['sizes'], $data['product_images']);
 
@@ -25,10 +26,11 @@ class StoreController extends Controller
             'article' => $data['article']
         ], $data);
 
-        foreach ($sizesId as $sizeId) {
+        foreach ($sizesId as $key => $sizeId) {
             SizeProduct::firstOrCreate([
                 'product_id' => $product->id,
                 'size_id' => $sizeId,
+                'quantity' => $quantities[$key],
             ]);
         }
 

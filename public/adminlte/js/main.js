@@ -89,10 +89,7 @@ function displayFiles(files, imagesContainer) {
     })
 }
 
-function clearStorage() {
-    localStorage.removeItem('filesUrl')
-}
-
+/* Очистка localStorage.removeItem('filesUrl') хранилища при загрузке страницы */
 window.addEventListener('beforeunload', function() {
-    clearStorage()
+    localStorage.removeItem('filesUrl')
 });

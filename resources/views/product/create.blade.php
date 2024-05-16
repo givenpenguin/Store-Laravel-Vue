@@ -30,12 +30,12 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="title">Наименование*</label>
+                        <label for="title" class="required-label">Наименование</label>
                         <input type="text" value="{{ old('title') }}" name="title" class="form-control" placeholder="Наименование">
                         @error('title') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="article">Артикул*</label>
+                        <label for="article" class="required-label">Артикул</label>
                         <input type="text" value="{{ old('article') }}" name="article" class="form-control" placeholder="Артикул">
                         @error('article') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
@@ -45,7 +45,7 @@
                         @error('description') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="preview_image">Превью*</label>
+                        <label for="preview_image" class="required-label">Превью</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input name="preview_image" itemid="preview_image" type="file" class="custom-file-input" id="exampleInputFile">
@@ -54,9 +54,8 @@
                         </div>
                         @error('preview_image') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="image">Фото</label>
+                        <label for="image">Изображения</label>
                         <div class="input-group mb-1">
                             <button type="button" class="btn btn-block btn-default file-chooser">Загрузить</button>
                         </div>
@@ -64,35 +63,29 @@
                         <div class="list-images"></div>
                         @error('product_images') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="price">Цена*</label>
-                        <input type="text" value="{{ old('price') }}" name="price" class="form-control" placeholder="Цена">
+                        <label for="price" class="required-label">Цена</label>
+                        <input type="number" value="{{ old('price') }}" min="1" name="price" class="form-control" placeholder="Цена">
                         @error('price') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
                         <label for="discount_price">Размер скидки в %</label>
-                        <input type="text" value="{{ old('discount') }}" name="discount" class="form-control" placeholder="Размер скидки">
+                        <input type="number" value="{{ old('discount') }}" min="1" name="discount" class="form-control" placeholder="Размер скидки">
                         @error('discount') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="quantity">Количество на складе*</label>
-                        <input type="text" value="{{ old('quantity') }}" name="quantity" class="form-control" placeholder="Количество">
-                        @error('quantity') <div class="panel alert-danger">{{ $message }}</div> @enderror
+                        <label class="required-label">Размеры</label>
+                        @foreach($sizes as $size)
+                            <div class="d-flex nowrap mb-2 form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $size->id }}" name="sizes[]" onchange="toggleInputAvailability('quantity-input-{{ $size->id }}')">
+                                <label for="sizes" class="col-sm-2 col-form-label">{{ $size->title }}</label>
+                                <input id="quantity-input-{{ $size->id }}" type="number" min="1" name="quantities[]" class="form-control" placeholder="Количество на складе" disabled required>
+                            </div>
+                        @endforeach
+                        @error("sizes") <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="sizes">Размеры*</label>
-                        <select name="sizes[]" class="sizes" multiple="multiple" data-placeholder="Выберите размеры" style="width: 100%;">
-                            @foreach($sizes as $size)
-                                <option value="{{ $size->id }}">{{ $size->title }}</option>
-                            @endforeach
-                        </select>
-                        @error('sizes') <div class="panel alert-danger">{{ $message }}</div> @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="category_id">Категория*</label>
+                        <label for="category_id" class="required-label">Категория</label>
                         <select name="category_id" class="form-control select2" style="width: 100%;">
                             <option selected disabled>Выберите категорию</option>
                             @foreach($categories as $category)
@@ -111,5 +104,12 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-    <script src="{{ asset('adminlte/js/main.js') }}"></script>
+    <script>
+        function toggleInputAvailability(id) {
+            let input = document.getElementById(id);
+            input.disabled = !input.disabled
+            input.disabled === true ? input.value = '' : '';
+        }
+    </script>
 @endsection
+

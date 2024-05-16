@@ -11,9 +11,6 @@ class ShowController extends Controller
 {
     public function __invoke(Product $product)
     {
-        $sizes = SizeProduct::all();
-        $categories = Category::all();
-
-        return view('product.show', compact('product', 'sizes', 'categories'));
+        return view('product.show', compact('product'));
     }
 }

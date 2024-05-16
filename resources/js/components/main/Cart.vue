@@ -39,9 +39,10 @@ export default {
         updateQtyProduct(product, action, event = null) {
             const productIndex = this.productsInCart.indexOf(product)
             const currentQty = this.productsInCart[productIndex].quantity
+            const sizeQty = this.productsInCart[productIndex].sizeQty
 
             if (action === 'increase') {
-                currentQty <= 99 ? this.productsInCart[productIndex].quantity += 1 : ''
+                currentQty <= 99 && currentQty < sizeQty ? this.productsInCart[productIndex].quantity += 1 : ''
             }
 
             if (action === 'decrease') {
@@ -51,7 +52,7 @@ export default {
             if (action === 'input') {
                 const eventValue = parseInt(event.target.value);
 
-                if (eventValue <= 99 && eventValue >= 1) {
+                if (eventValue <= 99 && currentQty < sizeQty && eventValue >= 1) {
                     this.productsInCart[productIndex].quantity = eventValue
                 } else {
                     this.productsInCart[productIndex].quantity = null;

@@ -25,7 +25,6 @@ class ProductFactory extends Factory
             'preview_image' => 'images/a31oOQDZynNU8sVsM1fNh2dibPb5HIdQuAMPdJmO.webp',
             'price' => fake()->numberBetween(1000, 10000),
             'discount' => fake()->numberBetween(0, 100),
-            'quantity' => fake()->numberBetween(1, 100),
             'category_id' => 1,
         ];
     }

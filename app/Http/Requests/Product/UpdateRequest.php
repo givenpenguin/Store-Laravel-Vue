@@ -27,9 +27,9 @@ class UpdateRequest extends FormRequest
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
-            'quantity' => 'required|integer',
             'category_id' => 'required|integer',
             'sizes' => 'required|array',
+            'quantities' => 'required|array',
         ];
     }
 }
