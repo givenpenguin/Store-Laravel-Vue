@@ -65,12 +65,12 @@
                     </div>
                     <div class="form-group">
                         <label for="price" class="required-label">Цена</label>
-                        <input type="number" value="{{ old('price') }}" min="1" name="price" class="form-control" placeholder="Цена">
+                        <input type="number" value="{{ old('price') }}" name="price" min="1" class="form-control" placeholder="Цена">
                         @error('price') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
                         <label for="discount_price">Размер скидки в %</label>
-                        <input type="number" value="{{ old('discount') }}" min="1" name="discount" class="form-control" placeholder="Размер скидки">
+                        <input type="number" value="{{ old('discount') }}" name="discount" min="1" max="100" class="form-control" placeholder="Размер скидки">
                         @error('discount') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">

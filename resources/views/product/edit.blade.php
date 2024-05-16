@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="discount_price">Размер скидки в %</label>
-                        <input type="number" value="{{ $product->discount ?? old('discount') }}" name="discount" min="1" class="form-control" placeholder="Размер скидки">
+                        <input type="number" value="{{ $product->discount ?? old('discount') }}" name="discount" min="1" max="100" class="form-control" placeholder="Размер скидки">
                         @error('discount') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
@@ -61,8 +61,8 @@
                             @php
                                 foreach($product->sizes as $productSize)
                                     if($productSize->id === $size->id){
-                                        {{ $isChecked = true; }}
-                                        {{ $quantity = $productSize->pivot->quantity; }}
+                                        $isChecked = true;
+                                        $quantity = $productSize->pivot->quantity;
                                     }
                             @endphp
 

@@ -94,7 +94,6 @@ export default {
             let id, title, quantity;
             this.product.sizes.find(size => {
                 if (size.quantity > 0) {
-                    console.log(size)
                     id = size.id
                     title = size.title
                     quantity = size.quantity
@@ -113,6 +112,13 @@ export default {
         },
         getPreviousImage() {
             this.images.current_image > 0 ? this.images.current_image -= 1 : this.images.current_image = this.images.url.length - 1
+        },
+        getProductQty(sizes) {
+            let sum = 0;
+            sizes.forEach(size => {
+                sum += size.quantity
+            })
+            return sum;
         },
     }
 }
@@ -168,7 +174,7 @@ export default {
                             </div>
                             <div class="details__content">
                                 <div class="details__price-block">
-                                    <span class="details__price" :class="{disabled:product.discount}">{{ product.price}} р.</span>
+                                    <span class="details__price" :class="{disabled:product.discount}">{{ product.price }} р.</span>
                                     <span v-if="product.discount" class="details__price">{{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</span>
                                 </div>
                                 <div class="details__size-block size-block">
@@ -179,7 +185,7 @@ export default {
                                         </li>
                                     </ul>
                                 </div>
-                                <button class="details__cart-button _button" :class="{'out-of-stock':product.quantity < 1}" type="submit" @click="addToCart"></button>
+                                <button class="details__cart-button _button" :class="{'out-of-stock':getProductQty(product.sizes) < 1}" type="submit" @click="addToCart"></button>
                             </div>
                             <div class="details__description">
                                 <p>{{ product.description }}</p>

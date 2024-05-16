@@ -38,7 +38,6 @@ export default {
     methods: {
         updateSliderRange,
         updateSliderPrice,
-
         async getData() {
             this.isLoaded = false
             await this.getProducts()
@@ -54,7 +53,6 @@ export default {
                     'prices': this.prices,
                     'page': page,
                 })
-            console.log(data.meta)
             this.products = data.data
             this.pagination = data.meta
             this.originalProducts = [...this.products]
@@ -65,6 +63,13 @@ export default {
             this.filterList = data
             this.pricesList = data.price
             this.prices = [data.price.min, data.price.max]
+        },
+        getProductQty(sizes) {
+            let sum = 0;
+            sizes.forEach(size => {
+                sum += size.quantity
+            })
+            return sum;
         },
         sortProducts() {
             switch (this.sortMethod) {
@@ -228,7 +233,7 @@ export default {
                                                     <span class="item-product__price" :class="{disabled:product.discount}">{{ product.price }} р.</span>
                                                     <span v-if="product.discount" class="item-product__price">{{ Math.floor(product.price - (product.price * (product.discount / 100))) }} р.</span>
                                                 </div>
-                                                <span v-if="product.quantity < 1" class="item-product__out-of-stock">Нет в наличии</span>
+                                                <span v-if="getProductQty(product.sizes) < 1" class="item-product__out-of-stock">Нет в наличии</span>
                                             </div>
                                         </router-link>
                                     </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Product;
 
 use App\Http\Resources\Category\CategoryResource;
-use App\Http\Resources\Size\SizeResource;
+use App\Http\Resources\Size\SizeProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +20,7 @@ class ProductDetailsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'article' => $this->article,
-            'sizes' => SizeResource::collection($this->sizes),
+            'sizes' => SizeProductResource::collection($this->sizes),
             'description' => $this->description,
             'image_url' => $this->imageUrl,
             'product_images' => ProductImageResource::collection($this->productImages),
