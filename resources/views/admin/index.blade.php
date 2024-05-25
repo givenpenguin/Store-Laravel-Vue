@@ -23,7 +23,14 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Вы вошли как {{ Auth::user()->login }}</h5>
+                        <p class="card-text">
+                            Ваша роль: {{ Auth::user()->role }}
+                        </p>
+                    </div>
+                </div>
                 <!-- ./col -->
             </div>
             <!-- /.row -->

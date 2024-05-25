@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
-Route::group(['prefix' => 'admin'], function ()
+Route::middleware('auth')
+    ->prefix('admin')
+    ->group(function ()
 {
     Route::get('/', \App\Http\Controllers\Admin\IndexController::class)->name('admin.index');
 
@@ -73,9 +75,12 @@ Route::group(['prefix' => 'admin'], function ()
         Route::patch('/{order}/update', \App\Http\Controllers\Order\UpdateController::class)->name('order.update');
         Route::delete('/{order}', \App\Http\Controllers\Order\DeleteController::class)->name('order.delete');
     });
+});
 
-    Route::view('/login', 'home')->name('login');
-    Route::view('/register', 'home')->name('register');
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('/login', \App\Http\Controllers\Auth\Login\ShowController::class)->name('login.show');
+    Route::post('/login', \App\Http\Controllers\Auth\Login\LoginController::class)->name('login');
+    Route::post('/logout', \App\Http\Controllers\Auth\Logout\LogoutController::class)->name('logout');
 });
 
 Route::get('/{any}', function () {
