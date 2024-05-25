@@ -753,6 +753,11 @@ h1, h2, h3, h4, h5, h6 {
   min-width: 120px;
   font-size: 15px;
 }
+.column-order__textarea {
+  border: 1px solid rgba(154, 154, 154, 0.2509803922);
+  height: 150px;
+  width: 190px;
+}
 @media (max-width: 750px) {
   .column-order__input {
     border: 1px solid rgba(154, 154, 154, 0.2509803922);
@@ -1408,7 +1413,7 @@ label, .filter__title {
   display: flex;
   flex-direction: column;
   background-color: #fcfcfc;
-  padding: 15px 30px 15px 20px;
+  padding: 25px;
   margin: 0px 15px 0px 0px;
 }
 .sidebar__columns {
@@ -1423,21 +1428,30 @@ label, .filter__title {
   margin: 0px 0px 30px 0px;
 }
 .sidebar__button-block {
-  width: -moz-fit-content;
-  width: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.sidebar__button {
+.sidebar__button-apply {
   text-transform: uppercase;
   height: 42px;
   width: 140px;
   border-radius: 12px;
-  background: #000000;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
   font-size: 13px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #000000;
 }
-.sidebar__button:not(:last-child) {
-  margin: 0px 0px 10px 0px;
+.sidebar__button-apply:hover {
+  color: #ffffff;
+  box-shadow: none;
+  background-color: #000000;
+}
+.sidebar__button-reset {
+  height: 42px;
+  width: 45px;
+  border-radius: 12px;
 }
 @media (max-width: 700px) {
   .sidebar__header-block {
@@ -1493,10 +1507,13 @@ label, .filter__title {
   .sidebar__column {
     width: 300px;
   }
-  .sidebar__button {
+  .sidebar__button-apply {
     height: 50px;
     width: 190px;
     font-size: 15px;
+  }
+  .sidebar__button-reset {
+    display: none;
   }
 }
 
@@ -1647,6 +1664,11 @@ label, .filter__title {
   width: 20px;
   height: 20px;
 }
+@media (min-width: 900px) {
+  .search__reset {
+    display: none;
+  }
+}
 @media (max-width: 900px) {
   .search {
     height: 40px;
@@ -1692,6 +1714,7 @@ label, .filter__title {
 .item-product__item-image {
   display: block;
   margin: 0px 0px 30px 0px;
+  height: 400px;
 }
 .item-product__content {
   display: flex;

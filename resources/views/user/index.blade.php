@@ -42,9 +42,9 @@
                                     <tbody>
                                     @foreach($users as $user)
                                         <tr>
-                                            <td><a href="{{ route('user.show', $size->id) }}">{{ $user->id }}</a></td>
+                                            <td><a href="{{ route('user.show', $user->id) }}">{{ $user->id }}</a></td>
                                             <td><a href="{{ route('user.show', $user->id) }}">{{ $user->login }}</a></td>
-                                            <td><a href="{{ route('user.show', $size->id) }}">{{ $user->email }}</a></td>
+                                            <td><a href="{{ route('user.show', $user->id) }}">{{ $user->email }}</a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>

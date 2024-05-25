@@ -13,5 +13,4 @@ class ProductImage extends Model
     {
         return url('storage/' . $this->file_path);
     }
-
 }

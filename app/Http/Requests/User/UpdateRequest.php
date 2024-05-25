@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'login' => 'nullable|string',
-            'email' => 'nullable|string|unique:users,email',
+            'email' => 'nullable|string|unique:users',
             'password' => 'nullable|string|confirmed',
         ];
     }

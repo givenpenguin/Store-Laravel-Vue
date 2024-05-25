@@ -12,7 +12,7 @@ const routes = [
         name: 'product',
     },
     {
-        path: '/cart',
+        path: '/checkout',
         component: () => import('./components/main/Cart.vue'),
         name: 'cart',
     },
@@ -27,12 +27,12 @@ const routes = [
         name: 'payment',
     },
     {
-        path: '/privacypolicy',
+        path: '/privacy-policy',
         component: () => import('./components/main/information/PrivacyPolicy.vue'),
         name: 'privacy-policy',
     },
     {
-        path: '/publicoffer',
+        path: '/public-offer',
         component: () => import('./components/main/information/PublicOffer.vue'),
         name: 'public-offer',
     },

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('preview_image');
 
             $table->float('price');
-            $table->float('discount')->nullable();
+            $table->float('discount')->nullable()->default(0);
 
             $table->foreignId('category_id')->nullable()->index()->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
 

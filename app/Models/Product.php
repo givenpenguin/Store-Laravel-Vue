@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Filterable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,15 @@ class Product extends Model
 
     protected $table = 'products';
     protected $guarded = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('discount_price', function (Builder $builder) {
+            $builder->selectRaw('*, price - (price * discount / 100) as discount_price');
+        });
+    }
 
     public function category()
     {

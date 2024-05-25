@@ -20,7 +20,7 @@ class StoreController extends Controller
         $sizesId = $data['sizes'];
         $quantities = $data['quantities'];
         $productImages = $data['product_images'] ?? [];
-        unset($data['sizes'], $data['product_images']);
+        unset($data['sizes'], $data['quantities'], $data['product_images']);
 
         $product = Product::firstOrCreate([
             'article' => $data['article']

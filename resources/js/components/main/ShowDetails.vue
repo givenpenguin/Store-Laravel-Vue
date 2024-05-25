@@ -30,9 +30,9 @@ export default {
     methods: {
         async getProduct() {
             const {data} = await axios
-                .get(`http://127.0.0.1:8888/api/admin/products/${this.$route.params.id}`)
+                .get(`http://127.0.0.1:8888/api/product/${this.$route.params.id}`);
             this.product = data.data
-            this.isLoaded = true;
+            this.isLoaded = true
         },
         getActualDataInCart() {
             this.productsQty = 0

@@ -380,9 +380,6 @@ export default {
 </template>
 
 <style>
-    span {
-        margin: 0 2px 0 0;
-    }
     .wrapper {
         min-height: 100vh;
     }

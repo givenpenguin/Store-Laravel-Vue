@@ -10,6 +10,7 @@ class ProductFilter extends AbstractFilter
     const CATEGORIES = 'categories';
     const SIZES = 'sizes';
     const PRICES = 'prices';
+    const SORT_METHOD = 'sort_method';
 
     protected function getCallbacks(): array
     {
@@ -18,6 +19,7 @@ class ProductFilter extends AbstractFilter
             self::CATEGORIES => [$this, 'categories'],
             self::SIZES => [$this, 'sizes'],
             self::PRICES => [$this, 'prices'],
+            self::SORT_METHOD => [$this, 'sort'],
         ];
     }
 
@@ -41,5 +43,16 @@ class ProductFilter extends AbstractFilter
     protected function prices(Builder $builder, $value): void
     {
         $builder->whereBetween('price', $value);
+    }
+
+    protected function sort(Builder $builder, $value): void
+    {
+        $array = explode('-', $value);
+        $column = $array[0];
+        $method = $array[1];
+
+        $builder
+            ->orderBy($column, $method)
+            ->get();
     }
 }

@@ -48,6 +48,6 @@ class DatabaseSeeder extends Seeder
             'title' => 'XL'
         ]);
 
-        Product::factory(100)->create();
+        Product::factory(10)->create();
     }
 }

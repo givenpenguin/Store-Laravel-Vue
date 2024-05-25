@@ -64,6 +64,18 @@ Route::group(['prefix' => 'admin'], function ()
         Route::patch('/{product}/update-image', \App\Http\Controllers\Product\UpdateImageController::class)->name('product.update-image');
         Route::delete('/{product}', \App\Http\Controllers\Product\DeleteController::class)->name('product.delete');
     });
+
+    Route::group(['prefix' => 'orders'], function ()
+    {
+        Route::get('/', \App\Http\Controllers\Order\IndexController::class)->name('order.index');
+        Route::get('/{order}/edit', \App\Http\Controllers\Order\EditController::class)->name('order.edit');
+        Route::get('/{order}', \App\Http\Controllers\Order\ShowController::class)->name('order.show');
+        Route::patch('/{order}/update', \App\Http\Controllers\Order\UpdateController::class)->name('order.update');
+        Route::delete('/{order}', \App\Http\Controllers\Order\DeleteController::class)->name('order.delete');
+    });
+
+    Route::view('/login', 'home')->name('login');
+    Route::view('/register', 'home')->name('register');
 });
 
 Route::get('/{any}', function () {
