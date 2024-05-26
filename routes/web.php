@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Auth::routes();
-
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function ()
 {
     Route::get('/', \App\Http\Controllers\Admin\IndexController::class)->name('admin.index');
 
-    Route::group(['prefix' => 'categories'], function ()
+    Route::middleware(['admin', 'moderator'])
+        ->prefix('categories')
+        ->group(function ()
     {
         Route::get('/', \App\Http\Controllers\Category\IndexController::class)->name('category.index');
         Route::get('/create', \App\Http\Controllers\Category\CreateController::class)->name('category.create');
@@ -32,7 +32,9 @@ Route::middleware('auth')
         Route::delete('/{category}', \App\Http\Controllers\Category\DeleteController::class)->name('category.delete');
     });
 
-    Route::group(['prefix' => 'sizes'], function ()
+    Route::middleware(['admin', 'moderator'])
+        ->prefix('sizes')
+        ->group(function ()
     {
         Route::get('/', \App\Http\Controllers\Size\IndexController::class)->name('size.index');
         Route::get('/create', \App\Http\Controllers\Size\CreateController::class)->name('size.create');
@@ -43,7 +45,9 @@ Route::middleware('auth')
         Route::delete('/{size}', \App\Http\Controllers\Size\DeleteController::class)->name('size.delete');
     });
 
-    Route::group(['prefix' => 'users'], function ()
+    Route::middleware(['admin'])
+        ->prefix('users')
+        ->group(function ()
     {
         Route::get('/', \App\Http\Controllers\User\IndexController::class)->name('user.index');
         Route::get('/create', \App\Http\Controllers\User\CreateController::class)->name('user.create');
@@ -54,7 +58,9 @@ Route::middleware('auth')
         Route::delete('/{user}', \App\Http\Controllers\User\DeleteController::class)->name('user.delete');
     });
 
-    Route::group(['prefix' => 'products'], function ()
+    Route::middleware(['admin', 'moderator', 'manager'])
+        ->prefix('products')
+        ->group(function ()
     {
         Route::get('/', \App\Http\Controllers\Product\IndexController::class)->name('product.index');
         Route::get('/create', \App\Http\Controllers\Product\CreateController::class)->name('product.create');
@@ -67,7 +73,9 @@ Route::middleware('auth')
         Route::delete('/{product}', \App\Http\Controllers\Product\DeleteController::class)->name('product.delete');
     });
 
-    Route::group(['prefix' => 'orders'], function ()
+    Route::middleware(['admin', 'moderator', 'manager'])
+        ->prefix('orders')
+        ->group(function ()
     {
         Route::get('/', \App\Http\Controllers\Order\IndexController::class)->name('order.index');
         Route::get('/{order}/edit', \App\Http\Controllers\Order\EditController::class)->name('order.edit');

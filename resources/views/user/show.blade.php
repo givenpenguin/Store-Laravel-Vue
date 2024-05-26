@@ -56,6 +56,10 @@
                                     <td>Email</td>
                                     <td>{{ $user->email }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Роль</td>
+                                    <td>{{ $user->role->title }}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Size;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,13 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         Category::factory()->create([
             'title' => 'Футболки'
         ]);
@@ -48,6 +43,17 @@ class DatabaseSeeder extends Seeder
             'title' => 'XL'
         ]);
 
+        Role::factory()->create([
+            'title' => 'Admin'
+        ]);
+        Role::factory()->create([
+            'title' => 'Moderator'
+        ]);
+        Role::factory()->create([
+            'title' => 'Manager'
+        ]);
+
         Product::factory(10)->create();
+        User::factory(10)->create();
     }
 }

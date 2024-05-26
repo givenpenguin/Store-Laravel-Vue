@@ -23,8 +23,10 @@ class UpdateRequest extends FormRequest
     {
         return [
             'login' => 'nullable|string',
-            'email' => 'nullable|string|unique:users',
+            'email' => "required|string|email|unique:users,email,$this->user_id",
             'password' => 'nullable|string|confirmed',
+            'user_id' => 'required|integer|exists:users,id',
+            'role_id' => 'required|integer',
         ];
     }
 }

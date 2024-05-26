@@ -36,7 +36,7 @@ export default {
     methods: {
         async createOrder() {
             this.isPageLoaded = false
-            await axios
+            const {data} = await axios
                 .post('http://127.0.0.1:8888/api/orders', {
                     'products': this.productsInCart,
 
@@ -60,6 +60,7 @@ export default {
                 })
             localStorage.removeItem('cart')
             this.isPageLoaded = true
+            this.$router.push({name: data.route})
         },
         getActualDataInCart() {
             this.productsQty = 0

@@ -37,6 +37,7 @@
                                             <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="ID: activate to sort column descending">ID</th>
                                             <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="Логин: activate to sort column ascending">Логин</th>
                                             <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="table-details" rowspan="1" colspan="1" aria-label="Роль: activate to sort column ascending">Роль</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,6 +46,7 @@
                                             <td><a href="{{ route('user.show', $user->id) }}">{{ $user->id }}</a></td>
                                             <td><a href="{{ route('user.show', $user->id) }}">{{ $user->login }}</a></td>
                                             <td><a href="{{ route('user.show', $user->id) }}">{{ $user->email }}</a></td>
+                                            <td><a href="{{ route('user.show', $user->id) }}">{{ $user->role->title }}</a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>

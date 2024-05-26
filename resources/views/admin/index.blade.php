@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Вы вошли как {{ Auth::user()->login }}</h5>
                         <p class="card-text">
-                            Ваша роль: {{ Auth::user()->role }}
+                            Ваша роль: {{ Auth::user()->role->title }}
                         </p>
                     </div>
                 </div>

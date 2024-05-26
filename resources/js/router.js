@@ -37,6 +37,16 @@ const routes = [
         name: 'public-offer',
     },
     {
+        path: '/order-success',
+        component: () => import('./components/main/information/OrderSuccess.vue'),
+        name: 'order-success',
+    },
+    {
+        path: '/order-error',
+        component: () => import('./components/main/information/OrderError.vue'),
+        name: 'order-error',
+    },
+    {
         path: '/:catchAll(.*)',
         component: () => import('./components/main/information/NotFound.vue'),
         name: 'notfound',

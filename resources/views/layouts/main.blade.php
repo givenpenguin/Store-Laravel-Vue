@@ -72,24 +72,29 @@
                             <p>Товары</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('category.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>Категории</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('size.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-ruler-horizontal"></i>
-                            <p>Размеры</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('user.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>Пользователи</p>
-                        </a>
-                    </li>
+                    @if(in_array(auth()->user()->role->title, ['Admin', 'Moderator']))
+                        <li class="nav-item">
+                            <a href="{{ route('category.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Категории</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('size.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-ruler-horizontal"></i>
+                                <p>Размеры</p>
+                            </a>
+                        </li>
+                    @endif
+                    @if(auth()->user()->role->title === 'Admin')
+                        <li class="nav-item">
+                            <a href="{{ route('user.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Пользователи</p>
+                            </a>
+                        </li>
+                    @endif
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

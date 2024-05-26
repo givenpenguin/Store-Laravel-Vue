@@ -6,6 +6,8 @@ use App\Http\Requests\API\Order\StoreRequest;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\SizeProduct;
 use Illuminate\Routing\Controller;
 
 class StoreController extends Controller
@@ -36,6 +38,20 @@ class StoreController extends Controller
             'amount_of_discount' => $data['amount_of_discount'],
             'total_price' => $data['total_price'],
         ], $data);
+
+        foreach ($data['products'] as $product) {
+            $sizeProduct = SizeProduct::where('product_id', $product['id'])
+                ->where('size_id', $product['sizeId'])
+                ->first();
+
+            if (isset($sizeProduct) && $sizeProduct->quantity > 0) {
+                $sizeProduct->update(['quantity' => $sizeProduct->quantity - $product['quantity']]);
+                return ['route' => 'order-success'];
+            } else {
+                return ['route' => 'order-error'];
+            }
+
+        }
 
         return new OrderResource($order);
     }

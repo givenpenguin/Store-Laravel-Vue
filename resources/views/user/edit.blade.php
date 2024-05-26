@@ -31,6 +31,17 @@
                     @method('patch')
 
                     <div class="form-group">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <label for="login" class="required-label">Роль</label>
+                        <select name="role_id" class="form-control select2" style="width: 100%;">
+                            <option selected disabled>Выберите роль</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ $role->title }}</option>
+                            @endforeach
+                        </select>
+                        @error('role_id') <div class="panel alert-danger">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="login" class="required-label">Логин</label>
                         <input type="text" value="{{ $user->login ?? old('login') }}" name="login" class="form-control" placeholder="Логин">
                         @error('login') <div class="panel alert-danger">{{ $message }}</div> @enderror
@@ -41,12 +52,12 @@
                         @error('email') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="password" class="required-label">Пароль</label>
+                        <label for="password" class="required-label">Новый пароль</label>
                         <input type="password" name="password" class="form-control" placeholder="Пароль">
                         @error('password') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
-                        <label for="password_confirmation" class="required-label">Подтверждение пароля</label>
+                        <label for="password_confirmation" class="required-label">Подтверждение нового пароля</label>
                         <input type="password" name="password_confirmation" class="form-control" placeholder="Подтвердить пароль">
                         @error('password_confirmation') <div class="panel alert-danger">{{ $message }}</div> @enderror
                     </div>

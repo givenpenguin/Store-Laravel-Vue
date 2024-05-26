@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 
 class CreateController extends Controller
 {
     public function __invoke()
     {
-        return view('user.create');
+        $roles = Role::all();
+
+        return view('user.create', compact('roles'));
     }
 }
