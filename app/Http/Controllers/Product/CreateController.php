@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Size;
 use App\Models\Category;
+use App\Models\Size;
 
 class CreateController extends Controller
 {

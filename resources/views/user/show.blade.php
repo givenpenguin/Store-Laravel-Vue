@@ -32,12 +32,14 @@
                             <div class="mr-3">
                                 <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">Редактировать</a>
                             </div>
+                            @unless(auth()->user()->email === $user->email || $user->role->title === 'Admin')
                             <form action="{{ route('user.delete', $user->id) }}" method="post">
                                 @csrf
                                 @method('delete')
 
                                 <input type="submit" class="btn btn-danger" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить?')">
                             </form>
+                            @endunless
                         </div>
 
                         <div class="card-body table-responsive p-0">

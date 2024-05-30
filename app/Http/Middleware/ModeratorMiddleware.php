@@ -15,7 +15,7 @@ class ModeratorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role->title !== 'Moderator') {
+        if(!in_array(auth()->user()->role->title, ['Admin', 'Moderator'])) {
             abort(403);
         }
 

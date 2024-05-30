@@ -28,7 +28,9 @@
             <div class="card">
                 <div class="card-body">
                     <div id="table-details_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        @unless(auth()->user()->role->title === 'Manager')
                         <a href="{{ route('product.create') }}" class="btn btn-primary">Добавить</a>
+                        @endunless
                         <div class="row">
                             <div class="col-sm-12">
                                 <table id="table-details" class="table table-bordered dataTable dtr-inline">

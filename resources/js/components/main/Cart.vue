@@ -60,7 +60,7 @@ export default {
                 })
             localStorage.removeItem('cart')
             this.isPageLoaded = true
-            this.$router.push({name: data.route})
+            // this.$router.push({name: data.route})
         },
         getActualDataInCart() {
             this.productsQty = 0

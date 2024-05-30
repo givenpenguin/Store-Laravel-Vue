@@ -29,6 +29,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex p-3">
+                            @unless(auth()->user()->role->title === 'Manager')
                             <div class="mr-3">
                                 <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Редактировать</a>
                             </div>
@@ -41,11 +42,11 @@
 
                                 <input type="submit" class="btn btn-danger" value="Удалить" onclick="return confirm('Вы уверены, что хотите удалить?')">
                             </form>
+                            @endunless
                         </div>
 
                         <div class="card-body table-responsive p-0">
                             <table class="table table-hover text-nowrap">
-
                                 <tbody>
                                     <tr>
                                         <td>ID</td>

@@ -59,6 +59,9 @@
                         <label class="required-label">Размеры</label>
                         @foreach($sizes as $size)
                             @php
+                                $isChecked = false;
+                                $quantity = null;
+
                                 foreach($product->sizes as $productSize)
                                     if($productSize->id === $size->id){
                                         $isChecked = true;
