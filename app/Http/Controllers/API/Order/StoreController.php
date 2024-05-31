@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API\Order;
 
 use App\Http\Requests\API\Order\StoreRequest;
 use App\Http\Resources\Order\OrderResource;
+use App\Jobs\CheckOrderStatus;
 use App\Models\Customer;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\SizeProduct;
 use Illuminate\Routing\Controller;
 
@@ -37,7 +37,8 @@ class StoreController extends Controller
             'amount_of_delivery' => $data['amount_of_delivery'],
             'amount_of_discount' => $data['amount_of_discount'],
             'total_price' => $data['total_price'],
-        ], $data);
+            'order_status' => 'Создан',
+        ]);
 
         foreach ($data['products'] as $product) {
             $sizeProduct = SizeProduct::where('product_id', $product['id'])
@@ -46,11 +47,20 @@ class StoreController extends Controller
 
             if (isset($sizeProduct) && $sizeProduct->quantity > 0) {
                 $sizeProduct->update(['quantity' => $sizeProduct->quantity - $product['quantity']]);
-                return ['route' => 'order-success'];
-            } else {
-                return ['route' => 'order-error'];
-            }
+                CheckOrderStatus::dispatch($order)->delay(now()->addDay());
 
+                return response()->json([
+                    'route' => 'order-success',
+                    'status' => 200,
+                    'order' => $data['products'],
+                ]);
+            } else {
+                return response()->json([
+                    'route' => 'order-error',
+                    'status' => 404,
+                    'order' => $order,
+                ]);
+            }
         }
 
         return new OrderResource($order);
